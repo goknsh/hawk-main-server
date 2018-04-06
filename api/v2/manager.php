@@ -90,9 +90,6 @@
         $GLOBALS["gotRegions"] = $GLOBALS["gotRegions"] + 1;
         
         if ($GLOBALS["gotRegions"] === $GLOBALS["regions"]) {
-            print("<pre>");
-            print_r($GLOBALS["response"]);
-            print("</pre>");
             $GLOBALS["gotRegions"] = 0;
             addToDB($GLOBALS["response"]);
         }
