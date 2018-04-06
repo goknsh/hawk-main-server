@@ -1,17 +1,24 @@
 <?php
-    session_start();
-    error_reporting(0);
-    ini_set('memory_limit', '100G'); 
-    header('Content-Type: application/json');
+    // error_reporting(0);
+    ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 15);
+    ob_start();
     
-	connect();
+    if (!isset($_GET["email"]) | $_GET["email"] === "" && !isset($_GET["pass"]) | $_GET["pass"] === "") {
+        echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Ping - Redirecting...</title><script>let time = 8;setInterval(function(){time = time - 1;document.querySelector('#seconds').innerHTML = time;if (time === 1) {document.querySelector('#grammar').innerHTML = 'second';}if (time === 0) {document.querySelector('#grammar').innerHTML = 'Should redirect now...';}}, 1000);</script></head><body style='padding:0;margin:0;font-family:monospace;padding:0 2rem;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;max-width:500px;margin:0 auto;text-align:center;'><div><h1 style='margin-top:0;color:red;'>You shouldn&rsquo;t be here</h1><p>So, we&rsquo;re taking you to our main website in <span id='seconds'>8</span> <span id='grammar'>seconds</span>. <b style='color:red;'>Please do not return here.</b> Our servers are very busy and you coming back here will just slow down things for everyone. We <b style='color:red;'>will ban your IP</b> if you keep coming back. Thanks for understanding.</p></div></body></html>";
+        header('refresh:7;url=https://useping.ga/');
+    } else {
+        header('Content-Type: application/json');
+	    connect();
+    }
 	
 	function connect() {
     	try {
             global $conn;
-            $conn = new PDO("mysql:host=localhost:3306;dbname=ping", "root", "root", array(PDO::ATTR_PERSISTENT => true));
+            $conn = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+            
+            // $conn = new PDO("mysql:host=gb.useping.ga:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+            
             if (isset($_GET["signup"]) && $_GET["signup"] === "true") {
                 signup();
             } if(isset($_GET["delete"]) && $_GET["delete"] === "true") {
@@ -35,18 +42,19 @@
             } else {
                 $response = array(
                     response => 'error',
-                    email => null,
+                    email => $_GET['email'],
                     name => null,
                     more => $e->getMessage()
                 );
                 echo json_encode($response);
+                exit;
             }
     	}
 	}
 	
 	function deleteSite() {
 	    $email = strtolower($_GET["email"]);
-        $pass = hash('sha512', $_GET['pass']);
+        $pass = $_GET['pass'];
         $id = (int)$_GET["id"];
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -57,8 +65,9 @@
                     response => 'mismatch'
                 );
                 echo json_encode($response);
+                exit;
             } else {
-                if ($dbPass === $pass) {
+                if (password_verify($pass, $dbPass)) {
                     $GLOBALS['conn']->exec("delete from `$email` where sites='$siteURL'");
                     $GLOBALS['conn']->exec("delete from `sites` where id=$id");
                     
@@ -98,7 +107,10 @@
 	
 	function addSite() {
 	    $email = strtolower($_GET["email"]);
-        $pass = hash('sha512', $_GET['pass']);
+        $pass = $_GET['pass'];
+        $url = $_GET["url"];
+        $thresh = $_GET["timeout"];
+        $name = htmlentities($_GET['title'], ENT_QUOTES | ENT_XML1, 'UTF-8');
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -108,52 +120,37 @@
                     response => 'mismatch'
                 );
                 echo json_encode($response);
+                exit;
             } else {
-                if ($dbPass === $pass) {
-                    $url = $_GET['url']; $thresh = $_GET['timeout']; $name = htmlentities($_GET['title'], ENT_QUOTES | ENT_XML1, 'UTF-8');
-                    if (strlen($GLOBALS['conn']->query("SELECT email, site FROM `sites` WHERE site='$url' and email='$email'")->fetchColumn()) !== 0) {
+                if (password_verify($pass, $dbPass)) {
+                    if (strlen($GLOBALS['conn']->query("SELECT site FROM `sites` WHERE site='$url' and email='$email'")->fetchColumn()) !== 0) {
                         $response = array(
                             response => 'exists'
                         );
                         echo json_encode($response);
                         exit;
                     } else {
-	    				$email = strtolower($_GET["email"]); $url = $_GET['url']; $thresh = $_GET['timeout']; $name = htmlentities($_GET['title'], ENT_QUOTES | ENT_XML1, 'UTF-8');
                         $GLOBALS['conn']->query("INSERT INTO sites (site, email, thresh, name) VALUES ('$url', '$email', '$thresh', '$name')");
                         $GLOBALS['conn']->query("INSERT INTO `$email`(`sites`, `email`, `pass`) VALUES ('$url', '$email', 'DATA')");
                         
                         $sql = "CREATE TABLE IF NOT EXISTS `$url` (
                             `id` int AUTO_INCREMENT,
                             `outage` int,
-                            `time` timestamp,
                             
                             `us-status` int(1),
                             `ie-status` int(1),
-                            `in-status` int(1),
                             
                             `us-latency` varchar(10),
                             `ie-latency` varchar(10),
-                            `in-latency` varchar(10),
                             
                             `us-data` int(255),
                             `ie-data` int(255),
-                            `in-data` int(255),
                             
                             `us-code` int(3),
                             `ie-code` int(3),
-                            `in-code` int(3),
                             
                             `us-lookup` int(255),
                             `ie-lookup` int(255),
-                            `in-lookup` int(255),
-                            
-                            `us-ssl-authority` varchar(255),
-                            `ie-ssl-authority` varchar(255),
-                            `in-ssl-authority` varchar(255),
-                            
-                            `us-ssl-expiry` varchar(255),
-                            `ie-ssl-expiry` varchar(255),
-                            `in-ssl-expiry` varchar(255),
                             PRIMARY KEY (`id`),
                             UNIQUE KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -209,19 +206,30 @@
         try {
             $name = $_GET['name'];
             $email = strtolower($_GET['email']);
-            $pass = hash('sha512', $_GET['pass']);
+            // $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => '$2y$10$aM1bb23nQhy7UNkhmlAOw.t7hP.iwoJ5a4SOlUktMY.FSRCXhfnWi']);
+            $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => base64_encode(mcrypt_create_iv(ceil(0.75*$length), MCRYPT_DEV_URANDOM))]);
             $sql = "CREATE TABLE `sites` (
 				`id` int AUTO_INCREMENT,
+				`time` timestamp,
 				`site` varchar(255),
 				`email` varchar(255),
 				`thresh` int,
 				`name` varchar(255),
-                `speed` int,
-                `latency` int,
-                `checks` int,
-                `us-uptime` int,
-                `ie-uptime` int,
-                `in-uptime` int,
+                `us-speed` int DEFAULT 1,
+                `ie-speed` int DEFAULT 1,
+                `us-latency` int DEFAULT 1,
+                `ie-latency` int DEFAULT 1,
+                `checks` int DEFAULT 0,
+                `checks-mn` int DEFAULT 0,
+                `checks-wk` int DEFAULT 0,
+                `us-uptime-wk` int DEFAULT 100,
+                `ie-uptime-wk` int DEFAULT 100,
+                `us-uptime-mn` int DEFAULT 100,
+                `ie-uptime-mn` int DEFAULT 100,
+                `us-ssl-auth` varchar(255),
+                `ie-ssl-auth` varchar(255),
+                `us-ssl-exp` varchar(255),
+                `ie-ssl-exp` varchar(255),
 				UNIQUE KEY `id` (`id`),
 				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -252,6 +260,7 @@
 					pass => $_GET["pass"]
                 );
                 echo json_encode($response);
+                exit;
             }
         } catch(PDOException $e) {
             if ($e->getCode() === 1203) {
@@ -259,17 +268,18 @@
             } else {
                 $response = array(
                     response => 'exists',
-                    name => null,
-                    email => null
+                    email => $_GET['email'],
+                    name => null
                 );
                 echo json_encode($response);
+                exit;
             }
         }
     }
 	
 	function getMoreStats() {
         $email = strtolower($_GET["email"]);
-        $pass = hash('sha512', $_GET['pass']);
+        $pass = $_GET['pass'];
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -277,13 +287,13 @@
             if ($dbPass === null) {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
-                if ($dbPass === $pass) {
+                if (password_verify($pass, $dbPass)) {
                     $email = strtolower($_GET['email']); $id = $_GET['id'];
                     $site = $GLOBALS['conn']->query("SELECT site FROM `sites` WHERE email='$email' AND id=$id")->fetchColumn();
                     $siteArr = array(); $siteRows = array(); $rows = array(); $siteArr2 = array();
@@ -296,14 +306,7 @@
                             $r["us-status"] = "Down";
                         } if ($r["us-status"] === "2") {
                             $r["us-status"] = "Timeout";
-                        } 
-                        if($r["in-status"] === "1") {
-                            $r["in-status"] = "Up";
-                        } if ($r["in-status"] === "0") {
-                            $r["in-status"] = "Down";
-                        } if ($r["in-status"] === "2") {
-                            $r["in-status"] = "Timeout";
-                        } 
+                        }
                         if($r["ie-status"] === "1") {
                             $r["ie-status"] = "Up";
                         } if ($r["ie-status"] === "0") {
@@ -328,10 +331,11 @@
                         $siteArr2
                     );
                     echo json_encode($rows);
+                    exit;
                 } else {
                     $response = array(
                         response => 'mismatch',
-                        email => null,
+                        email => $_GET['email'],
                         name => null
                     );
                     echo json_encode($response);
@@ -345,7 +349,7 @@
             } if ($e->getCode() === '42S02') {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
@@ -353,7 +357,7 @@
             } else {
                 $response = array(
                     response => 'error',
-                    email => null,
+                    email => $_GET['email'],
                     name => null,
                     more => $e->getMessage()
                 );
@@ -365,7 +369,7 @@
 	
     function login() {
         $email = strtolower($_GET["email"]);
-        $pass = hash('sha512', $_GET['pass']);
+        $pass = $_GET['pass'];
 	    try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -373,25 +377,28 @@
             if ($dbPass === null) {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
+                exit;
             } else {
-                if ($dbPass === $pass) {
+                if (password_verify($pass, $dbPass)) {
                     $response = array(
                         response => 'success',
                         email => strtolower($email),
                         name => $dbName
                     );
                     echo json_encode($response);
+                    exit;
                 } else {
                     $response = array(
                         response => 'mismatch',
-                        email => null,
+                        email => $_GET['email'],
                         name => null
                     );
                     echo json_encode($response);
+                    exit;
                 }
             }
         } catch (PDOException $e) {
@@ -400,25 +407,27 @@
             } if ($e->getCode() === '42S02') {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
+                exit;
             } else {
                 $response = array(
                     response => 'error',
-                    email => null,
-                    name => null,
-                    more => $e->getMessage()
+                    email => $_GET['email'],
+                    more => $e->getMessage(),
+                    name => null
                 );
                 echo json_encode($response);
+                exit;
             }
         }
 	}
 	
 	function getSite() {
         $email = strtolower($_GET["email"]);
-        $pass = hash('sha512', $_GET['pass']);
+        $pass = $_GET['pass'];
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -426,13 +435,13 @@
             if ($dbPass === null) {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
-                if ($dbPass === $pass) {
+                if (password_verify($pass, $dbPass)) {
                     $email = strtolower($_GET['email']);
                     $sth = $GLOBALS['conn']->query("SELECT site FROM `sites` where email='$email'");
                     $rows = array(); $rows2 = array();  $sitesArr = array();
@@ -468,10 +477,11 @@
                         array_push($rows2, $siteArr2);
                     }
                     echo json_encode($rows2);
+                    exit;
                 } else {
                     $response = array(
                         response => 'mismatch',
-                        email => null,
+                        email => $_GET['email'],
                         name => null
                     );
                     echo json_encode($response);
@@ -486,7 +496,7 @@
             } if ($e->getCode() === '42S02') {
                 $response = array(
                     response => 'mismatch',
-                    email => null,
+                    email => $_GET['email'],
                     name => null
                 );
                 echo json_encode($response);
@@ -494,7 +504,7 @@
             } else {
                 $response = array(
                     response => 'error',
-                    email => null,
+                    email => $_GET['email'],
                     name => null,
                     more => $e->getMessage()
                 );
