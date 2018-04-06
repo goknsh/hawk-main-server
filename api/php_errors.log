@@ -1,0 +1,17 @@
+[06-Apr-2018 17:45:34 UTC] PHP Fatal error:  Maximum function nesting level of '15' reached, aborting! in /home/ubuntu/workspace/api/v2/index.php on line 17
+[06-Apr-2018 17:45:34 UTC] PHP Stack trace:
+[06-Apr-2018 17:45:34 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/index.php:0
+[06-Apr-2018 17:45:34 UTC] PHP   2. connect() /home/ubuntu/workspace/api/v2/index.php:11
+[06-Apr-2018 17:45:34 UTC] PHP   3. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   4. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   5. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   6. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   7. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   8. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP   9. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  10. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  11. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  12. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  13. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  14. connect() /home/ubuntu/workspace/api/v2/index.php:41
+[06-Apr-2018 17:45:34 UTC] PHP  15. connect() /home/ubuntu/workspace/api/v2/index.php:41

@@ -25,7 +25,11 @@
             }
         }
     } catch (PDOException $e) {
-        var_dump($e);
+        $response = array(
+            'response' => 'error',
+            'more' => $e->getMessage()
+        );
+        echo json_encode($response);
     }
 
     function checkURL($url) {
@@ -182,17 +186,15 @@
             
             $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE)")->execute();
             
-            $response = new stdClass();
             $response = array(
-                response => 'success'
+                'response' => 'success'
             );
             echo json_encode($response);
         } catch(PDOException $e) {
-            $response = new stdClass();
             $response = array(
-                response => 'error',
-                more => $e->getMessage(),
-                line => $e->getLine()
+                'response' => 'error',
+                'more' => $e->getMessage(),
+                'line' => $e->getLine()
             );
             echo json_encode($response);
         }

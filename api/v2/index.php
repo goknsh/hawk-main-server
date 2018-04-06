@@ -33,7 +33,7 @@
                 getMoreStats();
             } else {
                 $response = array(
-                    response => 'up'
+                    'response' => 'up'
                 );
             }
     	} catch (PDOException $e) {
@@ -41,10 +41,10 @@
                 connect();
             } else {
                 $response = array(
-                    response => 'error',
-                    email => $_GET['email'],
-                    name => null,
-                    more => $e->getMessage()
+                    'response' => 'error',
+                    'email' => $_GET['email'],
+                    'name' => null,
+                    'more' => $e->getMessage()
                 );
                 echo json_encode($response);
                 exit;
@@ -62,7 +62,7 @@
             
             if ($dbPass === null) {
                 $response = array(
-                    response => 'mismatch'
+                    'response' => 'mismatch'
                 );
                 echo json_encode($response);
                 exit;
@@ -72,13 +72,13 @@
                     $GLOBALS['conn']->exec("delete from `sites` where id=$id");
                     
                     $response = array(
-                        response => 'success'
+                        'response' => 'success'
                     );
                     echo json_encode($response);
                     exit;
                 } else {
                     $response = array(
-                        response => 'mismatch',
+                        'response' => 'mismatch',
                     );
                     echo json_encode($response);
                     exit;
@@ -90,14 +90,14 @@
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
-                    response => 'mismatch'
+                    'response' => 'mismatch'
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 $response = array(
-                    response => 'error',
-                    more => $e->getMessage()
+                    'response' => 'error',
+                    'more' => $e->getMessage()
                 );
                 echo json_encode($response);
                 exit;
@@ -117,7 +117,7 @@
             
             if ($dbPass === null) {
                 $response = array(
-                    response => 'mismatch'
+                    'response' => 'mismatch'
                 );
                 echo json_encode($response);
                 exit;
@@ -125,7 +125,7 @@
                 if (password_verify($pass, $dbPass)) {
                     if (strlen($GLOBALS['conn']->query("SELECT site FROM `sites` WHERE site='$url' and email='$email'")->fetchColumn()) !== 0) {
                         $response = array(
-                            response => 'exists'
+                            'response' => 'exists'
                         );
                         echo json_encode($response);
                         exit;
@@ -168,14 +168,14 @@
                         // curl_close($c);
                         
                         $response = array(
-                            response => 'success'
+                            'response' => 'success'
                         );
                         echo json_encode($response);
                         exit;
                     }
                 } else {
                     $response = array(
-                        response => 'mismatch',
+                        'response' => 'mismatch',
                     );
                     echo json_encode($response);
                     exit;
@@ -187,14 +187,14 @@
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
-                    response => 'mismatch'
+                    'response' => 'mismatch'
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 $response = array(
-                    response => 'error',
-                    more => $e->getMessage()
+                    'response' => 'error',
+                    'more' => $e->getMessage()
                 );
                 echo json_encode($response);
                 exit;
@@ -213,25 +213,25 @@
 				`time` timestamp,
 				`site` varchar(255),
 				`email` varchar(255),
-				`thresh` int,
+				`thresh` int(255),
 				`name` varchar(255),
-                `us-speed` int DEFAULT 1,
-                `ie-speed` int DEFAULT 1,
-                `us-latency` int DEFAULT 1,
-                `ie-latency` int DEFAULT 1,
-                `us-lookup` int DEFAULT 1,
-                `ie-lookup` int DEFAULT 1,
-                `checks` int DEFAULT 0,
-                `checks-mn` int DEFAULT 0,
-                `checks-wk` int DEFAULT 0,
-                `us-uptime-wk` int DEFAULT 100,
-                `ie-uptime-wk` int DEFAULT 100,
-                `us-uptime-mn` int DEFAULT 100,
-                `ie-uptime-mn` int DEFAULT 100,
-                `us-ssl-auth` varchar(255),
-                `ie-ssl-auth` varchar(255),
-                `us-ssl-exp` varchar(255),
-                `ie-ssl-exp` varchar(255),
+                `us-speed` int(255) DEFAULT 1,
+                `ie-speed` int(255) DEFAULT 1,
+                `us-latency` int(255) DEFAULT 1,
+                `ie-latency` int(255) DEFAULT 1,
+                `us-lookup` int(255) DEFAULT 1,
+                `ie-lookup` int(255) DEFAULT 1,
+                `checks` int(255) DEFAULT 0,
+                `checks-mn` int(255) DEFAULT 0,
+                `checks-wk` int(255) DEFAULT 0,
+                `us-uptime-wk` int(255) DEFAULT 100,
+                `ie-uptime-wk` int(255) DEFAULT 100,
+                `us-uptime-mn` int(255) DEFAULT 100,
+                `ie-uptime-mn` int(255) DEFAULT 100,
+                `us-ssl-auth` longtext varchar(255),
+                `ie-ssl-auth` longtext varchar(255),
+                `us-ssl-exp` longtext varchar(255),
+                `ie-ssl-exp` longtext varchar(255),
 				UNIQUE KEY `id` (`id`),
 				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -256,10 +256,10 @@
                 $_SESSION["name"] = $_GET['pass'];
                 
                 $response = array(
-                    response => 'success',
-                    name => $name,
-                    email => $email,
-					pass => $_GET["pass"]
+                    'response' => 'success',
+                    'name' => $name,
+                    'email' => $email,
+					'pass' => $_GET["pass"]
                 );
                 echo json_encode($response);
                 exit;
@@ -269,9 +269,9 @@
                 signUp();
             } else {
                 $response = array(
-                    response => 'exists',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'exists',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
@@ -288,9 +288,9 @@
             
             if ($dbPass === null) {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
@@ -336,9 +336,9 @@
                     exit;
                 } else {
                     $response = array(
-                        response => 'mismatch',
-                        email => $_GET['email'],
-                        name => null
+                        'response' => 'mismatch',
+                        'email' => $_GET['email'],
+                        'name' => null
                     );
                     echo json_encode($response);
                     exit;
@@ -350,18 +350,18 @@
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 $response = array(
-                    response => 'error',
-                    email => $_GET['email'],
-                    name => null,
-                    more => $e->getMessage()
+                    'response' => 'error',
+                    'email' => $_GET['email'],
+                    'name' => null,
+                    'more' => $e->getMessage()
                 );
                 echo json_encode($response);
                 exit;
@@ -378,26 +378,26 @@
             
             if ($dbPass === null) {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
                     $response = array(
-                        response => 'success',
-                        email => strtolower($email),
-                        name => $dbName
+                        'response' => 'success',
+                        'email' => strtolower($email),
+                        'name' => $dbName
                     );
                     echo json_encode($response);
                     exit;
                 } else {
                     $response = array(
-                        response => 'mismatch',
-                        email => $_GET['email'],
-                        name => null
+                        'response' => 'mismatch',
+                        'email' => $_GET['email'],
+                        'name' => null
                     );
                     echo json_encode($response);
                     exit;
@@ -408,18 +408,18 @@
                 login();
             } if ($e->getCode() === '42S02') {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 $response = array(
-                    response => 'error',
-                    email => $_GET['email'],
-                    more => $e->getMessage(),
-                    name => null
+                    'response' => 'error',
+                    'email' => $_GET['email'],
+                    'more' => $e->getMessage(),
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
@@ -436,9 +436,9 @@
             
             if ($dbPass === null) {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
@@ -482,9 +482,9 @@
                     exit;
                 } else {
                     $response = array(
-                        response => 'mismatch',
-                        email => $_GET['email'],
-                        name => null
+                        'response' => 'mismatch',
+                        'email' => $_GET['email'],
+                        'name' => null
                     );
                     echo json_encode($response);
                     exit;
@@ -497,18 +497,18 @@
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
-                    response => 'mismatch',
-                    email => $_GET['email'],
-                    name => null
+                    'response' => 'mismatch',
+                    'email' => $_GET['email'],
+                    'name' => null
                 );
                 echo json_encode($response);
                 exit;
             } else {
                 $response = array(
-                    response => 'error',
-                    email => $_GET['email'],
-                    name => null,
-                    more => $e->getMessage()
+                    'response' => 'error',
+                    'email' => $_GET['email'],
+                    'name' => null,
+                    'more' => $e->getMessage()
                 );
                 echo json_encode($response);
                 exit;
