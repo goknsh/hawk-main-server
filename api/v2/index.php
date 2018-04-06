@@ -219,6 +219,8 @@
                 `ie-speed` int DEFAULT 1,
                 `us-latency` int DEFAULT 1,
                 `ie-latency` int DEFAULT 1,
+                `us-lookup` int DEFAULT 1,
+                `ie-lookup` int DEFAULT 1,
                 `checks` int DEFAULT 0,
                 `checks-mn` int DEFAULT 0,
                 `checks-wk` int DEFAULT 0,
