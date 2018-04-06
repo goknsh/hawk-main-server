@@ -1,0 +1,6 @@
+[06-Apr-2018 16:51:05 UTC] PHP Warning:  password_hash(): Provided salt is too short: 16 expecting 22 in /home/ubuntu/workspace/api/v2/index.php on line 210
+[06-Apr-2018 16:51:05 UTC] PHP Stack trace:
+[06-Apr-2018 16:51:05 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/index.php:0
+[06-Apr-2018 16:51:05 UTC] PHP   2. connect() /home/ubuntu/workspace/api/v2/index.php:11
+[06-Apr-2018 16:51:05 UTC] PHP   3. signup() /home/ubuntu/workspace/api/v2/index.php:23
+[06-Apr-2018 16:51:05 UTC] PHP   4. password_hash() /home/ubuntu/workspace/api/v2/index.php:210

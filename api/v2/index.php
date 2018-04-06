@@ -207,7 +207,7 @@
             $name = $_GET['name'];
             $email = strtolower($_GET['email']);
             // $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => '$2y$10$aM1bb23nQhy7UNkhmlAOw.t7hP.iwoJ5a4SOlUktMY.FSRCXhfnWi']);
-            $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)]);
+            $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)]);
             $sql = "CREATE TABLE `sites` (
 				`id` int AUTO_INCREMENT,
 				`time` timestamp,
