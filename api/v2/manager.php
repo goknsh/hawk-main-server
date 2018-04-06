@@ -165,9 +165,6 @@
             
             if ($data["ie"]["status"] === "up") {
                 $statusIE = 0;
-                if ($outage !== 1) {
-                    $outage = 0;
-                }
             } if ($data["ie"]["status"] === "down") {
                 $statusIE = 1;
                 $outage = 1;
@@ -183,7 +180,7 @@
             $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
             $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             
-            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $lookupUS, $lookupIE, $codeUS, $codeIE, $lookupUS, $lookupIE)")->execute();
+            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE)")->execute();
             
             $response = new stdClass();
             $response = array(
