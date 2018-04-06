@@ -149,11 +149,6 @@
             }
             
             $checks = $checks + 1; $checksWK = $checksWK + 1; $checksMN = $checksMN + 1;
-            $codeUS = $data["us"]["code"]; $codeIE = $data["ie"]["code"];
-            $lookupUS = $data["us"]["lookup"]; $lookupIE = $data["ie"]["lookup"];
-            $dataUS = $data["us"]["size"]; $dataIE = $data["ie"]["size"];
-            $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
-            $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=$speedUS, `ie-speed`=$speedIE, `us-latency`=$latencyUS, `ie-latency`=$latencyIE, `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE, `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN, `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE, `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE, `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE', `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE' WHERE `site`='$url'")->execute();
             
@@ -181,10 +176,12 @@
                 $outage = 1;
             }
             
-            $latencyUS = $data["us"]["latency"];
-            $latencyIE = $data["ie"]["latency"];
-            $lookupUS = $data["us"]["lookup"];
-            $lookupIE = $data["ie"]["lookup"];
+            $latencyUS = $data["us"]["latency"]; $latencyIE = $data["ie"]["latency"];
+            $codeUS = $data["us"]["code"]; $codeIE = $data["ie"]["code"];
+            $lookupUS = $data["us"]["lookup"]; $lookupIE = $data["ie"]["lookup"];
+            $dataUS = $data["us"]["size"]; $dataIE = $data["ie"]["size"];
+            $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
+            $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             
             $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $lookupUS, $lookupIE, $codeUS, $codeIE, $lookupUS, $lookupIE)")->execute();
             
