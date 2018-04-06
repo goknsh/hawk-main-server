@@ -112,13 +112,13 @@
             
             $latencyFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             $latencyFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $latencyUS = (($latencyFromDBUS * $checks) + $data["us"]["latency"]) / ($checks + 1);
-            $latencyIE = (($latencyFromDBIE * $checks) + $data["ie"]["latency"]) / ($checks + 1);
+            $latencyUS = round((($latencyFromDBUS * $checks) + $data["us"]["latency"]) / ($checks + 1), 3); var_dump($latencyUS);
+            $latencyIE = round((($latencyFromDBIE * $checks) + $data["ie"]["latency"]) / ($checks + 1), 3); var_dump($latencyIE);
             
             $lookupFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             $lookupFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $lookupUS = (($lookupFromDBUS * $checks) + $data["us"]["lookup"]) / ($checks + 1);
-            $lookupIE = (($lookupFromDBIE * $checks) + $data["ie"]["lookup"]) / ($checks + 1);
+            $lookupUS = round((($lookupFromDBUS * $checks) + $data["us"]["lookup"]) / ($checks + 1), 3); var_dump($lookupUS);
+            $lookupIE = round((($lookupFromDBIE * $checks) + $data["ie"]["lookup"]) / ($checks + 1), 3); var_dump($lookupIE);
             
             $uptimeWKFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             $uptimeWKFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
@@ -199,3 +199,16 @@
             echo json_encode($response);
         }
     }
+    
+function nettuts_error_handler($number, $message, $file, $line, $vars) {
+    $email = "<p>An error ($number) occurred on line 
+        <strong>$line</strong> and in the <strong>file: $file.</strong> 
+        <p> $message </p>";
+    $email .= "<pre>" . print_r($vars, 1) . "</pre>";
+    $headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    error_log($email, 1, 'akaankshraj@gmail.com', $headers);
+    if ( ($number !== E_NOTICE) && ($number < 2048) ) {
+        die("There was an error. Please try again later.");
+    }
+}
+set_error_handler('nettuts_error_handler');

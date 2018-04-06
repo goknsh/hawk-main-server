@@ -149,8 +149,8 @@
                             `us-code` int(3),
                             `ie-code` int(3),
                             
-                            `us-lookup` int(255),
-                            `ie-lookup` int(255),
+                            `us-lookup` decimal(65, 3),
+                            `ie-lookup` decimal(65, 3),
                             PRIMARY KEY (`id`),
                             UNIQUE KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -215,23 +215,23 @@
 				`email` varchar(255),
 				`thresh` int(255),
 				`name` varchar(255),
-                `us-speed` int(255) DEFAULT 1,
-                `ie-speed` int(255) DEFAULT 1,
-                `us-latency` int(255) DEFAULT 1,
-                `ie-latency` int(255) DEFAULT 1,
-                `us-lookup` int(255) DEFAULT 1,
-                `ie-lookup` int(255) DEFAULT 1,
+                `us-speed` decimal(65, 3) DEFAULT 1,
+                `ie-speed` decimal(65, 3) DEFAULT 1,
+                `us-latency` decimal(65, 3) DEFAULT 1,
+                `ie-latency` decimal(65, 3) DEFAULT 1,
+                `us-lookup` decimal(65, 3) DEFAULT 1,
+                `ie-lookup` decimal(65, 3) DEFAULT 1,
                 `checks` int(255) DEFAULT 0,
                 `checks-mn` int(255) DEFAULT 0,
                 `checks-wk` int(255) DEFAULT 0,
-                `us-uptime-wk` int(255) DEFAULT 100,
-                `ie-uptime-wk` int(255) DEFAULT 100,
-                `us-uptime-mn` int(255) DEFAULT 100,
-                `ie-uptime-mn` int(255) DEFAULT 100,
-                `us-ssl-auth` longtext varchar(255),
-                `ie-ssl-auth` longtext varchar(255),
-                `us-ssl-exp` longtext varchar(255),
-                `ie-ssl-exp` longtext varchar(255),
+                `us-uptime-wk` decimal(65, 3) DEFAULT 100,
+                `ie-uptime-wk` decimal(65, 3) DEFAULT 100,
+                `us-uptime-mn` decimal(65, 3) DEFAULT 100,
+                `ie-uptime-mn` decimal(65, 3) DEFAULT 100,
+                `us-ssl-auth` longtext,
+                `ie-ssl-auth` longtext,
+                `us-ssl-exp` longtext,
+                `ie-ssl-exp` longtext,
 				UNIQUE KEY `id` (`id`),
 				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -271,7 +271,8 @@
                 $response = array(
                     'response' => 'exists',
                     'email' => $_GET['email'],
-                    'name' => null
+                    'more' => $e->getMessage(),
+                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -515,4 +516,17 @@
             }
         }
 	}
+	
+function nettuts_error_handler($number, $message, $file, $line, $vars) {
+    $email = "<p>An error ($number) occurred on line 
+        <strong>$line</strong> and in the <strong>file: $file.</strong> 
+        <p> $message </p>";
+    $email .= "<pre>" . print_r($vars, 1) . "</pre>";
+    $headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    error_log($email, 1, 'akaankshraj@gmail.com', $headers);
+    if ( ($number !== E_NOTICE) && ($number < 2048) ) {
+        die("There was an error. Please try again later.");
+    }
+}
+register_shutdown_function('nettuts_error_handler');
 ?>
