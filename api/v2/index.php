@@ -151,6 +151,9 @@
                             
                             `us-lookup` decimal(65, 3),
                             `ie-lookup` decimal(65, 3),
+                            
+                            `us-speed` decimal(65, 3),
+                            `ie-speed` decimal(65, 3),
                             PRIMARY KEY (`id`),
                             UNIQUE KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";

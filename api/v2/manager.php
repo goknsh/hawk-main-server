@@ -180,11 +180,13 @@
             $dataUS = $data["us"]["size"]; $dataIE = $data["ie"]["size"];
             $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
             $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
+            $speedUS = $data["us"]["speed"]; $speedIE = $data["ie"]["speed"];
             
-            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE)")->execute();
+            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`, `us-speed`, `ie-speed`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE, $speedUS, $speedIE)")->execute();
             
             $response = array(
-                'response' => 'success'
+                'response' => 'success',
+                'url' => $url
             );
             echo json_encode($response);
         } catch(PDOException $e) {
