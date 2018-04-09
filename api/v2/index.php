@@ -1,11 +1,12 @@
 <?php
-    // error_reporting(0);
+    error_reporting(0);
     ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 15);
     ob_start();
     
     if (!isset($_GET["email"]) | $_GET["email"] === "" && !isset($_GET["pass"]) | $_GET["pass"] === "") {
         echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Ping - Redirecting...</title><script>let time = 8;setInterval(function(){time = time - 1;document.querySelector('#seconds').innerHTML = time;if (time === 1) {document.querySelector('#grammar').innerHTML = 'second';}if (time === 0) {document.querySelector('#grammar').innerHTML = 'Should redirect now...';}}, 1000);</script></head><body style='padding:0;margin:0;font-family:monospace;padding:0 2rem;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;max-width:500px;margin:0 auto;text-align:center;'><div><h1 style='margin-top:0;color:red;'>You shouldn&rsquo;t be here</h1><p>So, we&rsquo;re taking you to our main website in <span id='seconds'>8</span> <span id='grammar'>seconds</span>. <b style='color:red;'>Please do not return here.</b> Our servers are very busy and you coming back here will just slow down things for everyone. We <b style='color:red;'>will ban your IP</b> if you keep coming back. Thanks for understanding.</p></div></body></html>";
         header('refresh:7;url=https://useping.ga/');
+        exit;
     } else {
         header('Content-Type: application/json');
 	    connect();
@@ -14,9 +15,9 @@
 	function connect() {
     	try {
             global $conn;
-            $conn = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+			$GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+			//$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
             
-            // $conn = new PDO("mysql:host=gb.useping.ga:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             if (isset($_GET["signup"]) && $_GET["signup"] === "true") {
@@ -131,7 +132,7 @@
                         exit;
                     } else {
                         $GLOBALS['conn']->query("INSERT INTO sites (site, email, thresh, name) VALUES ('$url', '$email', '$thresh', '$name')");
-                        $GLOBALS['conn']->query("INSERT INTO `$email`(`sites`, `email`, `pass`) VALUES ('$url', '$email', 'DATA')");
+                        $GLOBALS['conn']->query("INSERT INTO `$email`(`name`, `sites`, `email`, `pass`) VALUES ('$name', '$url', '$email', 'DATA')");
                         
                         $sql = "CREATE TABLE IF NOT EXISTS `$url` (
                             `id` int AUTO_INCREMENT,
@@ -159,16 +160,16 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
                         $GLOBALS['conn']->exec($sql);
                         
-                        // $urlx = '/api/v1/cron?new=true&url=' . $url;
-                        // $c = curl_init();
-                        // curl_setopt($c, CURLOPT_URL, $urlx);
-                        // curl_setopt($c, CURLOPT_HEADER, TRUE);
-                        // curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
-                        // curl_setopt($c, CURLOPT_FRESH_CONNECT, TRUE);
-                        // curl_setopt($c, CURLOPT_FILETIME, TRUE);
-                        // curl_setopt($c, CURLOPT_CERTINFO, TRUE);
-                        // curl_exec($c);
-                        // curl_close($c);
+                        $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/manager.php?new=true&url=' . $_GET["url"];
+                        $c = curl_init();
+                        curl_setopt($c, CURLOPT_URL, $urlx);
+                        curl_setopt($c, CURLOPT_HEADER, TRUE);
+                        curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
+                        curl_setopt($c, CURLOPT_FRESH_CONNECT, TRUE);
+                        curl_setopt($c, CURLOPT_FILETIME, TRUE);
+                        curl_setopt($c, CURLOPT_CERTINFO, TRUE);
+                        var_dump(curl_exec($c));
+                        curl_close($c);
                         
                         $response = array(
                             'response' => 'success'

@@ -1,0 +1,265 @@
+[09-Apr-2018 17:52:25 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 26
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:26
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 27
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_setopt() /home/ubuntu/workspace/api/v2/manager.php:27
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 28
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:28
+[09-Apr-2018 17:52:28 UTC] PHP Warning:  curl_close() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:52:28 UTC] PHP Stack trace:
+[09-Apr-2018 17:52:28 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:52:28 UTC] PHP   2. curl_close() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:35 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:37 UTC] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home/ubuntu/workspace/api/v2/manager.php on line 29
+[09-Apr-2018 17:53:37 UTC] PHP Stack trace:
+[09-Apr-2018 17:53:37 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[09-Apr-2018 17:53:37 UTC] PHP   2. curl_exec() /home/ubuntu/workspace/api/v2/manager.php:29
+[09-Apr-2018 17:53:55 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:53:56 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:53:57 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:53:58 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:53:59 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:08 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:09 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:10 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:11 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:12 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:19 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:19 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:20 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:21 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[09-Apr-2018 17:54:22 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11

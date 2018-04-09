@@ -1,7 +1,7 @@
 <?php
     ignore_user_abort(true);
     set_time_limit(0);
-    error_reporting(0);
+    // error_reporting(0);
     ini_set('display_errors', 1);
     header('Content-Type: application/json');
     
@@ -9,6 +9,8 @@
     
     $regions = 2;
     $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+    //$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+
     $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     $time = strtotime(date("Y-m-d h:m:s"));
@@ -17,11 +19,14 @@
 
     try {
         if (isset($_GET["new"]) && $_GET["new"] === "true") {
-
+            checkURL($_GET["url"]);
         } else {
             $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
             foreach ($sitesArray as $url) {
-              $data = checkURL($url);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'https://pingmain-arkme.c9users.io/api/v2/manager.php?new=true&url=' . $_GET["url"]);
+                curl_exec($ch);
+                curl_close($ch);
             }
         }
     } catch (PDOException $e) {
@@ -150,6 +155,8 @@
             }
             
             $checks = $checks + 1; $checksWK = $checksWK + 1; $checksMN = $checksMN + 1;
+            $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
+            $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=$speedUS, `ie-speed`=$speedIE, `us-latency`=$latencyUS, `ie-latency`=$latencyIE, `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE, `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN, `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE, `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE, `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE', `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE' WHERE `site`='$url'")->execute();
             
@@ -178,8 +185,6 @@
             $codeUS = $data["us"]["code"]; $codeIE = $data["ie"]["code"];
             $lookupUS = $data["us"]["lookup"]; $lookupIE = $data["ie"]["lookup"];
             $dataUS = $data["us"]["size"]; $dataIE = $data["ie"]["size"];
-            $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
-            $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             $speedUS = $data["us"]["speed"]; $speedIE = $data["ie"]["speed"];
             
             $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`, `us-speed`, `ie-speed`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE, $speedUS, $speedIE)")->execute();
