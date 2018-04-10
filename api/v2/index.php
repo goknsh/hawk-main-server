@@ -137,7 +137,8 @@
                         
                         $sql = "CREATE TABLE IF NOT EXISTS `$url` (
                             `id` int AUTO_INCREMENT,
-                            `outage` int,
+				            `time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                            `outage` int(1),
                             
                             `us-status` int(1),
                             `ie-status` int(1),
@@ -215,7 +216,6 @@
             $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)]);
             $sql = "CREATE TABLE `sites` (
 				`id` int AUTO_INCREMENT,
-				`time` timestamp,
 				`site` varchar(255),
 				`email` varchar(255),
 				`thresh` int(255),
@@ -473,12 +473,12 @@
                             'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` where site='$site' and email='$email'")->fetchColumn(),
                             'length' => (int)$GLOBALS['conn']->query("SELECT count(*) FROM `$site`")->fetchColumn(),
                             'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site'")->fetchColumn()),
-                            'us-uptime' => $GLOBALS['conn']->query("SELECT `us-uptime` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
-                            'ie-uptime' => $GLOBALS['conn']->query("SELECT `ie-uptime` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
-                            'us-uptime-mn' => $GLOBALS['conn']->query("SELECT `us-uptime-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
-                            'ie-uptime-mn' => $GLOBALS['conn']->query("SELECT `ie-uptime-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
-                            'us-uptime-wk' => $GLOBALS['conn']->query("SELECT `us-uptime-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
-                            'ie-uptime-wk' => $GLOBALS['conn']->query("SELECT `ie-uptime-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'us-uptime' => (int)$GLOBALS['conn']->query("SELECT `us-uptime` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'ie-uptime' => (int)$GLOBALS['conn']->query("SELECT `ie-uptime` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'us-uptime-mn' => (int)$GLOBALS['conn']->query("SELECT `us-uptime-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'ie-uptime-mn' => (int)$GLOBALS['conn']->query("SELECT `ie-uptime-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'us-uptime-wk' => (int)$GLOBALS['conn']->query("SELECT `us-uptime-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'ie-uptime-wk' => (int)$GLOBALS['conn']->query("SELECT `ie-uptime-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                             'us-ssl-exp' => $GLOBALS['conn']->query("SELECT `us-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                             'ie-ssl-exp' => $GLOBALS['conn']->query("SELECT `ie-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         );
