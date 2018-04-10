@@ -1,5 +1,5 @@
 <?php
-    error_reporting(0);
+    // error_reporting(0);
     ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 15);
     ob_start();
     
@@ -168,7 +168,7 @@
                         curl_setopt($c, CURLOPT_FRESH_CONNECT, TRUE);
                         curl_setopt($c, CURLOPT_FILETIME, TRUE);
                         curl_setopt($c, CURLOPT_CERTINFO, TRUE);
-                        var_dump(curl_exec($c));
+                        curl_exec($c);
                         curl_close($c);
                         
                         $response = array(
@@ -307,20 +307,20 @@
                     
                     $sth = $GLOBALS['conn']->query("SELECT * FROM `$site` ORDER BY id DESC");
                     while($r = $sth->fetch(PDO::FETCH_ASSOC)) {
-                        if($r["us-status"] === "1") {
+                        if($r["us-status"] === "0") {
                             $r["us-status"] = "Up";
-                        } if ($r["us-status"] === "0") {
+                        } if ($r["us-status"] === "1") {
                             $r["us-status"] = "Down";
                         } if ($r["us-status"] === "2") {
                             $r["us-status"] = "Timeout";
                         }
-                        if($r["ie-status"] === "1") {
+                        if($r["ie-status"] === "0") {
                             $r["ie-status"] = "Up";
-                        } if ($r["ie-status"] === "0") {
+                        } if ($r["ie-status"] === "1") {
                             $r["ie-status"] = "Down";
                         } if ($r["ie-status"] === "2") {
                             $r["ie-status"] = "Timeout";
-                        } 
+                        }
                         // $siteRows = array(
                         //     'data' => $r
                         // );
@@ -331,10 +331,14 @@
                     }
                     $rows = array(
                         'site' => $site,
-                        'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` where site='$site' AND email='$email'")->fetchColumn(),
+                        'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'length' => (int)$GLOBALS['conn']->query("SELECT count(*) FROM `$site`")->fetchColumn(),
                         'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site' AND email='$email'")->fetchColumn()),
-                        'thresh' => (int)$GLOBALS['conn']->query("SELECT thresh from `sites` where site='$site' AND email='$email'")->fetchColumn(),
+                        'thresh' => (int)$GLOBALS['conn']->query("SELECT thresh from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-ssl-auth' => $GLOBALS['conn']->query("SELECT `us-ssl-auth` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-ssl-auth' => $GLOBALS['conn']->query("SELECT `ie-ssl-auth` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-ssl-exp' => $GLOBALS['conn']->query("SELECT `us-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-ssl-exp' => $GLOBALS['conn']->query("SELECT `ie-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         $siteArr2
                     );
                     echo json_encode($rows);
@@ -342,8 +346,7 @@
                 } else {
                     $response = array(
                         'response' => 'mismatch',
-                        'email' => $_GET['email'],
-                        'name' => null
+                        'email' => $_GET['email']
                     );
                     echo json_encode($response);
                     exit;
@@ -357,7 +360,8 @@
                 $response = array(
                     'response' => 'mismatch',
                     'email' => $_GET['email'],
-                    'name' => null
+                    'more' => $e->getMessage(),
+                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -365,8 +369,8 @@
                 $response = array(
                     'response' => 'error',
                     'email' => $_GET['email'],
-                    'name' => null,
-                    'more' => $e->getMessage()
+                    'more' => $e->getMessage(),
+                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -465,17 +469,26 @@
                             'site' => $site,
                             'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` where site='$site' and email='$email'")->fetchColumn(),
                             'length' => (int)$GLOBALS['conn']->query("SELECT count(*) FROM `$site`")->fetchColumn(),
-                            'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site'")->fetchColumn())
+                            'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site'")->fetchColumn()),
+                            'us-ssl-exp' => $GLOBALS['conn']->query("SELECT `us-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                            'ie-ssl-exp' => $GLOBALS['conn']->query("SELECT `ie-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         );
                         
                         while($r = $sth->fetch(PDO::FETCH_ASSOC)) {
-                            if($r["us-status"] === "1") {
+                            if($r["us-status"] === "0") {
                                 $r["us-status"] = "Up";
-                            } if ($r["us-status"] === "0") {
+                            } if ($r["us-status"] === "1") {
                                 $r["us-status"] = "Down";
                             } if ($r["us-status"] === "2") {
                                 $r["us-status"] = "Timeout";
-                            } 
+                            }
+                            if($r["ie-status"] === "0") {
+                                $r["ie-status"] = "Up";
+                            } if ($r["ie-status"] === "1") {
+                                $r["ie-status"] = "Down";
+                            } if ($r["ie-status"] === "2") {
+                                $r["ie-status"] = "Timeout";
+                            }
                             $siteRows = array(
                                 'data' => $r
                             );
@@ -521,16 +534,16 @@
         }
 	}
 	
-function nettuts_error_handler($number, $message, $file, $line, $vars) {
-    $email = "<p>An error ($number) occurred on line 
-        <strong>$line</strong> and in the <strong>file: $file.</strong> 
-        <p> $message </p>";
-    $email .= "<pre>" . print_r($vars, 1) . "</pre>";
-    $headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    error_log($email, 1, 'akaankshraj@gmail.com', $headers);
-    if ( ($number !== E_NOTICE) && ($number < 2048) ) {
-        die("There was an error. Please try again later.");
-    }
-}
-register_shutdown_function('nettuts_error_handler');
+// function nettuts_error_handler($number, $message, $file, $line, $vars) {
+//     $email = "<p>An error ($number) occurred on line 
+//         <strong>$line</strong> and in the <strong>file: $file.</strong> 
+//         <p> $message </p>";
+//     $email .= "<pre>" . print_r($vars, 1) . "</pre>";
+//     $headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+//     error_log($email, 1, 'akaankshraj@gmail.com', $headers);
+//     if ( ($number !== E_NOTICE) && ($number < 2048) ) {
+//         die("There was an error. Please try again later.");
+//     }
+// }
+// register_shutdown_function('nettuts_error_handler');
 ?>
