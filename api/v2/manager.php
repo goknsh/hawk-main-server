@@ -24,7 +24,7 @@
             $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
             foreach ($sitesArray as $url) {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'https://pingmain-arkme.c9users.io/api/v2/manager.php?new=true&url=' . $_GET["url"]);
+                curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
                 curl_exec($ch);
                 curl_close($ch);
             }
