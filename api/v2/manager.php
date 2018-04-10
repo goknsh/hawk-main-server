@@ -122,6 +122,18 @@
             $lookupUS = round((($lookupFromDBUS * $checks) + $data["us"]["lookup"]) / ($checks + 1), 3);
             $lookupIE = round((($lookupFromDBIE * $checks) + $data["ie"]["lookup"]) / ($checks + 1), 3);
             
+            $uptimeFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $uptimeFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            if (isset($data["us"]["status"]) && $data["us"]["status"] === "up") {
+                $uptimeUS = ((($uptimeFromDBUS/100) * ($checks * 60) + 60) / (($checks + 1) * 60)) * 100;
+            } else {
+                $uptimeUS = ((($uptimeFromDBUS/100) * ($checks * 60)) / (($checks + 1) * 60)) * 100;
+            } if (isset($data["ie"]["status"]) && $data["ie"]["status"] === "up") {
+                $uptimeIE = ((($uptimeFromDBIE/100) * ($checks * 60) + 60) / (($checks + 1) * 60)) * 100;
+            } else {
+                $uptimeIE = ((($uptimeFromDBIE/100) * ($checks * 60)) / (($checks + 1) * 60)) * 100;
+            }
+            
             $uptimeWKFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             $uptimeWKFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             if ($GLOBALS["time"] - $GLOBALS["lastWeek"] < -60) {
@@ -158,7 +170,7 @@
             $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
             $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
             
-            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=$speedUS, `ie-speed`=$speedIE, `us-latency`=$latencyUS, `ie-latency`=$latencyIE, `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE, `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN, `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE, `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE, `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE', `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE' WHERE `site`='$url'")->execute();
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=$speedUS, `ie-speed`=$speedIE, `us-latency`=$latencyUS, `ie-latency`=$latencyIE, `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE, `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN, `us-uptime`=$uptimeUS, `ie-uptime`=$uptimeIE, `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE, `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE, `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE', `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE' WHERE `site`='$url'")->execute();
             
             if ($data["us"]["status"] === "up") {
                 $statusUS = 0;
