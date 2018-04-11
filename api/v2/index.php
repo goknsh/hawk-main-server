@@ -1,6 +1,6 @@
 <?php
     // error_reporting(0);
-    ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 15);
+    ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 256);
     ob_start();
     
     if (!isset($_GET["email"]) | $_GET["email"] === "" && !isset($_GET["pass"]) | $_GET["pass"] === "") {
@@ -463,7 +463,6 @@
                     foreach($sitesArr as $site) {
                         $sth = $GLOBALS['conn']->query("SELECT * FROM `$site` ORDER BY id DESC LIMIT 1");
                         $siteArr2 = array(
-                            'response' => 'success',
                             'site' => $site,
                             'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` where site='$site' and email='$email'")->fetchColumn(),
                             'length' => (int)$GLOBALS['conn']->query("SELECT count(*) FROM `$site`")->fetchColumn(),

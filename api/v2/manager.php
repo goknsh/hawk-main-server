@@ -2,7 +2,7 @@
     ignore_user_abort(true);
     set_time_limit(0);
     // error_reporting(0);
-    ini_set('display_errors', 1);
+    // ini_set('display_errors', 1);
     header('Content-Type: application/json');
     
     global $conn; global $validation; global $regions; global $gotRegions; global $time; global $lastWeek; global $lastMonth; $validation = 0; $gotRegions = 0;
@@ -12,29 +12,37 @@
     $time = strtotime(date("Y-m-d h:m:s"));
     $lastWeek = strtotime(date("Y-m-d", strtotime("last week")));
     $lastMonth = strtotime(date("Y-m-d", strtotime("last month")));
-
-    try {
-        $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-        //$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
     
-        $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        if (isset($_GET["new"]) && $_GET["new"] === "true") {
-            checkURL($_GET["url"]);
-        } else {
-            $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
-            foreach ($sitesArray as $url) {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
-                curl_exec($ch);
-                curl_close($ch);
+    connect();
+    
+    function connect() {
+        try {
+            $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+            //$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+        
+            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            if (isset($_GET["new"]) && $_GET["new"] === "true") {
+                checkURL($_GET["url"]);
+            } else {
+                $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
+                foreach ($sitesArray as $url) {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
+                    curl_exec($ch);
+                    curl_close($ch);
+                }
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                connect();
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage()
+                );
+                echo json_encode($response);
             }
         }
-    } catch (PDOException $e) {
-        $response = array(
-            'response' => 'error',
-            'more' => $e->getMessage()
-        );
-        echo json_encode($response);
     }
 
     function checkURL($url) {
@@ -207,12 +215,15 @@
             );
             echo json_encode($response);
         } catch(PDOException $e) {
-            $response = array(
-                'response' => 'error',
-                'more' => $e->getMessage(),
-                'line' => $e->getLine()
-            );
-            echo json_encode($response);
+            if ($e->getCode() === 1203) {
+                addToDB($data);
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage()
+                );
+                echo json_encode($response);
+            }
         }
     }
     
