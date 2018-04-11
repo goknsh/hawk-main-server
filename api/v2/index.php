@@ -463,6 +463,7 @@
                     foreach($sitesArr as $site) {
                         $sth = $GLOBALS['conn']->query("SELECT * FROM `$site` ORDER BY id DESC LIMIT 1");
                         $siteArr2 = array(
+                            'response' => 'success',
                             'site' => $site,
                             'id' => (int)$GLOBALS['conn']->query("SELECT id from `sites` where site='$site' and email='$email'")->fetchColumn(),
                             'length' => (int)$GLOBALS['conn']->query("SELECT count(*) FROM `$site`")->fetchColumn(),
