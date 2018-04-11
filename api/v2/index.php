@@ -44,9 +44,7 @@
             } else {
                 $response = array(
                     'response' => 'error',
-                    'email' => $_GET['email'],
-                    'name' => null,
-                    'more' => $e->getMessage()
+                    'more' => $e->getMessage(),
                 );
                 echo json_encode($response);
                 exit;
@@ -99,7 +97,7 @@
             } else {
                 $response = array(
                     'response' => 'error',
-                    'more' => $e->getMessage()
+                    'more' => $e->getMessage(),
                 );
                 echo json_encode($response);
                 exit;
@@ -200,7 +198,7 @@
             } else {
                 $response = array(
                     'response' => 'error',
-                    'more' => $e->getMessage()
+                    'more' => $e->getMessage(),
                 );
                 echo json_encode($response);
                 exit;
@@ -264,7 +262,7 @@
                 
                 $response = array(
                     'response' => 'success',
-                    'name' => $name,
+                    'name' => $_GET['name'],
                     'email' => $email,
 					'pass' => $_GET["pass"]
                 );
@@ -279,7 +277,6 @@
                     'response' => 'exists',
                     'email' => $_GET['email'],
                     'more' => $e->getMessage(),
-                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -364,7 +361,6 @@
                     'response' => 'mismatch',
                     'email' => $_GET['email'],
                     'more' => $e->getMessage(),
-                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -373,7 +369,6 @@
                     'response' => 'error',
                     'email' => $_GET['email'],
                     'more' => $e->getMessage(),
-                    'line' => $e->getLine()
                 );
                 echo json_encode($response);
                 exit;
@@ -385,7 +380,7 @@
         $email = strtolower($_GET["email"]);
         $pass = $_GET['pass'];
 	    try {
-            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            $dbPass = $GLOBALS['conn']->query("SELECT `pass` FROM `$email` WHERE sites='DATA'")->fetchColumn();
             
             if ($dbPass === null) {
                 $response = array(
