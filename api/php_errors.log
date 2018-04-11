@@ -1,0 +1,15 @@
+[11-Apr-2018 15:07:49 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[11-Apr-2018 15:07:54 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11
+[11-Apr-2018 15:11:27 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000] [1203] User goark_server already has more than 'max_user_connections' active connections' in /home/ubuntu/workspace/api/v2/manager.php:11
+Stack trace:
+#0 /home/ubuntu/workspace/api/v2/manager.php(11): PDO->__construct('mysql:host=rick...', 'goark_server', 'serverkey2', Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/api/v2/manager.php on line 11

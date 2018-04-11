@@ -517,7 +517,6 @@
                 }
             }
         } catch (PDOException $e) {
-			echo $e->getMessage();
             if ($e->getCode() === 1203) {
                 getSite();
                 exit;

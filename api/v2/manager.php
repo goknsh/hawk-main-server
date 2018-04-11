@@ -8,16 +8,16 @@
     global $conn; global $validation; global $regions; global $gotRegions; global $time; global $lastWeek; global $lastMonth; $validation = 0; $gotRegions = 0;
     
     $regions = 2;
-    $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-    //$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-
-    $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     $time = strtotime(date("Y-m-d h:m:s"));
     $lastWeek = strtotime(date("Y-m-d", strtotime("last week")));
     $lastMonth = strtotime(date("Y-m-d", strtotime("last month")));
 
     try {
+        $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+        //$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+    
+        $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if (isset($_GET["new"]) && $_GET["new"] === "true") {
             checkURL($_GET["url"]);
         } else {
