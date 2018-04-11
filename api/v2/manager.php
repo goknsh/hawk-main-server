@@ -26,10 +26,11 @@
             } else {
                 $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
                 foreach ($sitesArray as $url) {
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
-                    curl_exec($ch);
-                    curl_close($ch);
+                    // $ch = curl_init();
+                    // curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
+                    // curl_exec($ch);
+                    // curl_close($ch);
+                    checkURL($url);
                 }
             }
         } catch (PDOException $e) {
@@ -207,7 +208,7 @@
             $dataUS = $data["us"]["size"]; $dataIE = $data["ie"]["size"];
             $speedUS = $data["us"]["speed"]; $speedIE = $data["ie"]["speed"];
             
-            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`, `us-speed`, `ie-speed`) VALUES ($outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE, $speedUS, $speedIE)")->execute();
+            $GLOBALS["conn"]->prepare("INSERT INTO `$url`(`time`, `outage`, `us-data`, `ie-data`, `us-status`, `ie-status`, `us-latency`, `ie-latency`, `us-code`, `ie-code`, `us-lookup`, `ie-lookup`, `us-speed`, `ie-speed`) VALUES (utc_timestamp(), $outage, $dataUS, $dataIE, $statusUS, $statusIE, $latencyUS, $latencyIE, $codeUS, $codeIE, $lookupUS, $lookupIE, $speedUS, $speedIE)")->execute();
             
             $response = array(
                 'response' => 'success',
