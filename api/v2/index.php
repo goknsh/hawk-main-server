@@ -231,6 +231,7 @@
                 `checks-wk` int(255) DEFAULT 0,
                 `us-uptime` decimal(65, 3) DEFAULT 100,
                 `ie-uptime` decimal(65, 3) DEFAULT 100,
+                `us-uptime-wk` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-wk` decimal(65, 3) DEFAULT 100,
                 `us-uptime-mn` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-mn` decimal(65, 3) DEFAULT 100,
@@ -524,7 +525,7 @@
                 $response = array(
                     'response' => 'mismatch',
                     'email' => $_GET['email'],
-                    'name' => null
+                    'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site'")->fetchColumn())
                 );
                 echo json_encode($response);
                 exit;
@@ -532,7 +533,7 @@
                 $response = array(
                     'response' => 'error',
                     'email' => $_GET['email'],
-                    'name' => null,
+                    'name' => htmlspecialchars_decode($GLOBALS['conn']->query("SELECT name FROM sites WHERE site='$site'")->fetchColumn()),
                     'more' => $e->getMessage()
                 );
                 echo json_encode($response);
