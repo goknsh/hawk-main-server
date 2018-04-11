@@ -231,7 +231,6 @@
                 `checks-wk` int(255) DEFAULT 0,
                 `us-uptime` decimal(65, 3) DEFAULT 100,
                 `ie-uptime` decimal(65, 3) DEFAULT 100,
-                `us-uptime` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-wk` decimal(65, 3) DEFAULT 100,
                 `us-uptime-mn` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-mn` decimal(65, 3) DEFAULT 100,
