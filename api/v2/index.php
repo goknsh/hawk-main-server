@@ -386,7 +386,6 @@
         $pass = $_GET['pass'];
 	    try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
-            $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
             
             if ($dbPass === null) {
                 $response = array(
@@ -401,7 +400,7 @@
                     $response = array(
                         'response' => 'success',
                         'email' => strtolower($email),
-                        'name' => $dbName
+                        'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn()
                     );
                     echo json_encode($response);
                     exit;
