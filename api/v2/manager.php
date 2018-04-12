@@ -116,23 +116,23 @@
             $checksWK = (int)$GLOBALS["conn"]->query("SELECT `checks-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             $checksMN = (int)$GLOBALS["conn"]->query("SELECT `checks-mn` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
             
-            $speedFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-speed` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $speedFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-speed` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $speedFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-speed` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $speedFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-speed` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             $speedUS = (($speedFromDBUS * $checks) + $data["us"]["speed"]) / ($checks + 1);
             $speedIE = (($speedFromDBIE * $checks) + $data["ie"]["speed"]) / ($checks + 1);
             
-            $latencyFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $latencyFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $latencyFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $latencyFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-latency` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             $latencyUS = round((($latencyFromDBUS * $checks) + $data["us"]["latency"]) / ($checks + 1), 3);
             $latencyIE = round((($latencyFromDBIE * $checks) + $data["ie"]["latency"]) / ($checks + 1), 3);
             
-            $lookupFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $lookupFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $lookupFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $lookupFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-lookup` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             $lookupUS = round((($lookupFromDBUS * $checks) + $data["us"]["lookup"]) / ($checks + 1), 3);
             $lookupIE = round((($lookupFromDBIE * $checks) + $data["ie"]["lookup"]) / ($checks + 1), 3);
             
-            $uptimeFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $uptimeFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $uptimeFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $uptimeFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-uptime` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             if (isset($data["us"]["status"]) && $data["us"]["status"] === "up") {
                 $uptimeUS = ((($uptimeFromDBUS/100) * ($checks * 60) + 60) / (($checks + 1) * 60)) * 100;
             } else {
@@ -143,8 +143,8 @@
                 $uptimeIE = ((($uptimeFromDBIE/100) * ($checks * 60)) / (($checks + 1) * 60)) * 100;
             }
             
-            $uptimeWKFromDBUS = (int)$GLOBALS["conn"]->query("SELECT `us-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $uptimeWKFromDBIE = (int)$GLOBALS["conn"]->query("SELECT `ie-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $uptimeWKFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $uptimeWKFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-uptime-wk` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             if ($GLOBALS["time"] - $GLOBALS["lastWeek"] < -60) {
                 $uptimeWKUS = 100; $uptimeWKIE = 100; $checksWK = 0;
             } else {
@@ -159,8 +159,8 @@
                 }
             }
             
-            $uptimeMNFromDBUS = $GLOBALS["conn"]->query("SELECT `us-uptime-mn` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
-            $uptimeMNFromDBIE = $GLOBALS["conn"]->query("SELECT `ie-uptime-mn` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"];
+            $uptimeMNFromDBUS = floatval($GLOBALS["conn"]->query("SELECT `us-uptime-mn` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
+            $uptimeMNFromDBIE = floatval($GLOBALS["conn"]->query("SELECT `ie-uptime-mn` FROM sites WHERE site='$url'")->fetchAll(PDO::FETCH_COLUMN)["0"]);
             if ($GLOBALS["time"] - $GLOBALS["lastMonth"] < -60) {
                 $uptimeMNUS = 100; $uptimeMNIE = 100; $checksMN = 0;
             } else {
