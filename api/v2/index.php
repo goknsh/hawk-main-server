@@ -35,6 +35,8 @@
                 getMoreStats();
             } if (isset($_GET["change"]) && $_GET["change"] === "latency") {
                 changeLatency();
+            } if (isset($_GET["change"]) && $_GET["change"] === "website") {
+                changeWebsiteName();
             } else {
                 $response = array(
                     'response' => 'up'
@@ -52,6 +54,59 @@
                 exit;
             }
     	}
+	}
+	
+	function changeWebsiteName() {
+	    $email = strtolower($_GET["email"]);
+        $pass = $_GET['pass'];
+        $url = $_GET['url'];
+        $to = $_GET['to'];
+        try {
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            
+            if ($dbPass === null) {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                if (password_verify($pass, $dbPass)) {
+                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `name`='$to' WHERE `site`='$url' and `email`='$email'")->execute();
+                    $response = array(
+                        'response' => 'success',
+                        'name' => $to
+                    );
+                    echo json_encode($response);
+                    exit;
+                } else {
+                    $response = array(
+                        'response' => 'mismatch',
+                    );
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                changeLatency();
+                exit;
+            } if ($e->getCode() === '42S02') {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage(),
+                );
+                echo json_encode($response);
+                exit;
+            }
+        }
 	}
 	
 	function changeLatency() {
@@ -111,6 +166,7 @@
 	    $email = strtolower($_GET["email"]);
         $pass = $_GET['pass'];
         $id = (int)$_GET["id"];
+        $url = $_GET["url"];
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             $dbName = $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn();
@@ -123,7 +179,7 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    $GLOBALS['conn']->exec("delete from `$email` where sites='$siteURL'");
+                    $GLOBALS['conn']->exec("delete from `$email` where sites='$url'");
                     $GLOBALS['conn']->exec("delete from `sites` where id=$id");
                     
                     $response = array(
