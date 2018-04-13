@@ -71,9 +71,10 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `thresh`=$to WHERE `url`=$url and `email`=$email")->execute();
+                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `thresh`=$to WHERE `site`='$url' and `email`='$email'")->execute();
                     $response = array(
-                        'response' => 'success'
+                        'response' => 'success',
+                        'thresh' => $to
                     );
                     echo json_encode($response);
                     exit;
