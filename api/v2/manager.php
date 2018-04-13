@@ -1,8 +1,7 @@
 <?php
     ignore_user_abort(true);
     set_time_limit(0);
-    // error_reporting(0);
-    // ini_set('display_errors', 1);
+    ob_start();
     header('Content-Type: application/json');
     
     global $conn; global $validation; global $regions; global $gotRegions; global $time; global $lastWeek; global $lastMonth; $validation = 0; $gotRegions = 0;
@@ -26,10 +25,6 @@
             } else {
                 $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
                 foreach ($sitesArray as $url) {
-                    // $ch = curl_init();
-                    // curl_setopt($ch, CURLOPT_URL, 'https://' . $_SERVER["HTTP_HOST"] . '/api/v2/manager.php?new=true&url=' . $_GET["url"]);
-                    // curl_exec($ch);
-                    // curl_close($ch);
                     checkURL($url);
                 }
             }
@@ -53,7 +48,11 @@
 
     function checkURLie($url) {
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, "https://ie-s1.herokuapp.com/api/v2/data?url=" . $url);
+        if ((int)date("j") > 15) {
+            curl_setopt($c, CURLOPT_URL, "https://ie-s1.herokuapp.com/api/v2/data?url=" . $url);
+        } else {
+            curl_setopt($c, CURLOPT_URL, "https://ie-s2.herokuapp.com/api/v2/data?url=" . $url);
+        }
         curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($c, CURLOPT_FOLLOWLOCATION, TRUE);
         $response = json_decode(curl_exec($c), true);
@@ -71,7 +70,11 @@
 
     function checkURLus($url) {
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, "https://us-s1.herokuapp.com/api/v2/data?url=" . $url);
+        if ((int)date("j") > 15) {
+            curl_setopt($c, CURLOPT_URL, "https://us-s1.herokuapp.com/api/v2/data?url=" . $url);
+        } else {
+            curl_setopt($c, CURLOPT_URL, "https://us-s2.herokuapp.com/api/v2/data?url=" . $url);
+        }
         curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($c, CURLOPT_FOLLOWLOCATION, TRUE);
         $response = json_decode(curl_exec($c), true);
