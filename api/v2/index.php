@@ -33,6 +33,8 @@
                 getSite();
             } if (isset($_GET["site"]) && $_GET["site"] === "more") {
                 getMoreStats();
+            } if (isset($_GET["change"]) && $_GET["change"] === "latency") {
+                changeLatency();
             } else {
                 $response = array(
                     'response' => 'up'
