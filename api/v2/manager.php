@@ -48,7 +48,7 @@
 
     function checkURLie($url) {
         $c = curl_init();
-        if ((int)date("j") > 15) {
+        if ((int)date("j") < 15) {
             curl_setopt($c, CURLOPT_URL, "https://ie-s1.herokuapp.com/api/v2/data?url=" . $url);
         } else {
             curl_setopt($c, CURLOPT_URL, "https://ie-s2.herokuapp.com/api/v2/data?url=" . $url);
@@ -70,7 +70,7 @@
 
     function checkURLus($url) {
         $c = curl_init();
-        if ((int)date("j") > 15) {
+        if ((int)date("j") < 15) {
             curl_setopt($c, CURLOPT_URL, "https://us-s1.herokuapp.com/api/v2/data?url=" . $url);
         } else {
             curl_setopt($c, CURLOPT_URL, "https://us-s2.herokuapp.com/api/v2/data?url=" . $url);
