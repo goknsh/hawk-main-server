@@ -90,7 +90,7 @@
             }
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
-                changeLatency();
+                changeEmail();
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
@@ -140,7 +140,7 @@
             }
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
-                changeLatency();
+                changePassword();
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
@@ -193,7 +193,7 @@
             }
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
-                changeLatency();
+                changeWebsiteName();
                 exit;
             } if ($e->getCode() === '42S02') {
                 $response = array(
@@ -760,17 +760,4 @@
             }
         }
 	}
-	
-// function nettuts_error_handler($number, $message, $file, $line, $vars) {
-//     $email = "<p>An error ($number) occurred on line 
-//         <strong>$line</strong> and in the <strong>file: $file.</strong> 
-//         <p> $message </p>";
-//     $email .= "<pre>" . print_r($vars, 1) . "</pre>";
-//     $headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//     error_log($email, 1, 'akaankshraj@gmail.com', $headers);
-//     if ( ($number !== E_NOTICE) && ($number < 2048) ) {
-//         die("There was an error. Please try again later.");
-//     }
-// }
-// register_shutdown_function('nettuts_error_handler');
 ?>
