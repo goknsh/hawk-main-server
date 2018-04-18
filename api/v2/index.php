@@ -17,7 +17,6 @@
     	try {
             global $conn;
 			$GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-			//$GLOBALS['conn'] = new PDO("mysql:host=localhost:3306;dbname=goark_ping", "server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
             
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
@@ -35,6 +34,10 @@
                 getMoreStats();
             } if (isset($_GET["change"]) && $_GET["change"] === "latency") {
                 changeLatency();
+            } if (isset($_GET["change"]) && $_GET["change"] === "email") {
+                changeEmail();
+            } if (isset($_GET["change"]) && $_GET["change"] === "pass") {
+                changePassword();
             } if (isset($_GET["change"]) && $_GET["change"] === "website") {
                 changeWebsiteName();
             } else {
@@ -54,6 +57,106 @@
                 exit;
             }
     	}
+	}
+	
+	function changeEmail() {
+        $email = strtolower($_GET["email"]);
+        $pass = $_GET['pass'];
+        $to = $_GET['to'];
+        try {
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            if ($dbPass === null) {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                if (password_verify($pass, $dbPass)) {
+                    $GLOBALS['conn']->prepare("RENAME TABLE `$email` TO `$to`;")->execute();
+                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `email`='$to' where `email`='$email'")->execute();
+                    $response = array(
+                        'response' => 'success'
+                    );
+                    echo json_encode($response);
+                    exit;
+                } else {
+                    $response = array(
+                        'response' => 'mismatch',
+                    );
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                changeLatency();
+                exit;
+            } if ($e->getCode() === '42S02') {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage(),
+                );
+                echo json_encode($response);
+                exit;
+            }
+        }
+	}
+	
+	function changePassword() {
+        $email = strtolower($_GET["email"]);
+        $pass = $_GET['pass'];
+        $to = $_GET['to'];
+        try {
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            if ($dbPass === null) {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                if (password_verify($pass, $dbPass)) {
+                    $newpass = password_hash($_GET['newpass'], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)]);
+                    $GLOBALS['conn']->prepare("UPDATE `$email` SET `pass`='$newpass' where `sites`='DATA'")->execute();
+                    $response = array(
+                        'response' => 'success'
+                    );
+                    echo json_encode($response);
+                    exit;
+                } else {
+                    $response = array(
+                        'response' => 'mismatch',
+                    );
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                changeLatency();
+                exit;
+            } if ($e->getCode() === '42S02') {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage(),
+                );
+                echo json_encode($response);
+                exit;
+            }
+        }
 	}
 	
 	function changeWebsiteName() {
@@ -321,7 +424,6 @@
         try {
             $name = $_GET['name'];
             $email = strtolower($_GET['email']);
-            // $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => '$2y$10$aM1bb23nQhy7UNkhmlAOw.t7hP.iwoJ5a4SOlUktMY.FSRCXhfnWi']);
             $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)]);
             $sql = "CREATE TABLE `sites` (
 				`id` int AUTO_INCREMENT,
