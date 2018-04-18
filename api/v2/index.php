@@ -424,7 +424,7 @@
             $name = $_GET['name'];
             $email = strtolower($_GET['email']);
             $pass = password_hash($_GET["pass"], PASSWORD_BCRYPT, ['salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)]);
-            $sql = "CREATE TABLE `sites` (
+            $sql = "CREATE TABLE IF NOT EXISTS `sites` (
 				`id` int AUTO_INCREMENT,
 				`site` varchar(255),
 				`email` varchar(255),
