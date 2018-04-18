@@ -112,7 +112,6 @@
 	function changePassword() {
         $email = strtolower($_GET["email"]);
         $pass = $_GET['pass'];
-        $to = $_GET['to'];
         try {
             $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
             if ($dbPass === null) {
