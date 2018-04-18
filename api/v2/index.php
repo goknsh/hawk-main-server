@@ -468,10 +468,6 @@
             $GLOBALS['conn']->exec("INSERT INTO `$email`(`sites`, `email`, `pass`, `name`, `token`) VALUES ('DATA', '$email', '$pass', '$name', '')");
             
             if ($email !== '') {
-                $_SESSION["email"] = strtolower($email);
-                $_SESSION["password"] = $pass;
-                $_SESSION["name"] = $_GET['pass'];
-                
                 $response = array(
                     'response' => 'success',
                     'name' => $_GET['name'],
