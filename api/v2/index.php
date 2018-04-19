@@ -66,7 +66,7 @@
         $pass = $_GET['pass'];
         $hash = $_GET['hash'];
         try {
-            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE pass!='DATA'")->fetchColumn();
             if ($dbPass === null) {
                 $response = array(
                     'response' => 'mismatch'
@@ -75,7 +75,7 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    if ($hash === $GLOBALS['conn']->query("SELECT sites FROM `$email` WHERE email='$email'")->fetchColumn()) {
+                    if ($hash === $GLOBALS['conn']->query("SELECT sites FROM `$email` WHERE pass!='DATA'")->fetchColumn()) {
                         $GLOBALS['conn']->prepare("UPDATE `$email` SET `sites`='DATA'")->execute();
                         $response = array(
                             'response' => 'success'
@@ -667,7 +667,7 @@
         $email = strtolower($_GET["email"]);
         $pass = $_GET['pass'];
 	    try {
-            $dbPass = $GLOBALS['conn']->query("SELECT `pass` FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE pass!='DATA'")->fetchColumn();
             
             if ($dbPass === null) {
                 $response = array(
@@ -690,7 +690,7 @@
                         $response = array(
                             'response' => 'success',
                             'email' => strtolower($email),
-                            'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn()
+                            'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE pass!='DATA'")->fetchColumn()
                         );
                         echo json_encode($response);
                         exit;
