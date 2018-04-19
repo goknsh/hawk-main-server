@@ -42,6 +42,10 @@
                 changeWebsiteName();
             } if (isset($_GET["verify"]) && $_GET["verify"] === "true") {
                 verifyEmail();
+            } if (isset($_GET["cleanup"]) && $_GET["cleanup"] === "weekly") {
+                weeklyCleanup();
+            } if (isset($_GET["cleanup"]) && $_GET["cleanup"] === "monthly") {
+                monthlyCleanup();
             } else {
                 $response = array(
                     'response' => 'up'
@@ -59,6 +63,44 @@
                 exit;
             }
     	}
+	}
+	
+	function weeklyCleanup() {
+        try {
+            $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000")->execute();
+            $response = array(
+                'response' => 'success',
+                'type' => 'weekly'
+            );
+            echo json_encode($response);
+            exit;
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                weeklyCleanup();
+                exit;
+            }
+        }
+	}
+	
+	function monthlyCleanup() {
+        try {
+            $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-mn`=0, `us-uptime-mn`=100.000, `ie-uptime-mn`=100.000")->execute();
+            $response = array(
+                'response' => 'success',
+                'type' => 'monthly'
+            );
+            echo json_encode($response);
+            exit;
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                monthlyCleanup();
+                exit;
+            }
+        }
 	}
 	
 	function verifyEmail() {
