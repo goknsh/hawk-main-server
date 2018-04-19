@@ -4,7 +4,7 @@ $hash = $_GET["hash"];
 
 if ($_GET["type"] = "verify") {
     $subject = "Verify your email for Hawk";
-    $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Verify your email - Hawk</title></head><body><div class="body"><h1>Hey $name,</h1><p>Lets get your account verified so that you can use Hawk. You can do that by clicking the button below. Also, if you didn’t signup, you can ignore this email or go <a href="https://usehawk.ga/">checkout Hawk</a>.</p><p><a href="https://usehawk.ga/verify/' . $hash . '" class="btn btn-primary">Verify Email</a></p></div></body></html>';
+    $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Verify your email - Hawk</title></head><body><div class="body"><p>Hey ' . $name . ',<br>Lets get your account verified so that you can use Hawk. You can do that by clicking the button below. Also, if you didn’t signup, you can ignore this email or go <a href="https://usehawk.ga/">checkout Hawk</a>.</p><p><a href="https://usehawk.ga/verify/' . $hash . '" class="btn btn-primary">Verify Email</a></p></div></body></html>';
     $text = "Verify your email so we can finish setting up your account.";
 }
 
