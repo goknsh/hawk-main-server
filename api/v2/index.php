@@ -526,12 +526,12 @@
 			$hash = hash('sha512', uniqid());
             $GLOBALS['conn']->exec("INSERT INTO `$email`(`sites`, `email`, `pass`, `name`, `token`) VALUES ('".$hash."', '$email', '$pass', '$name', '')");
             
-            $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/notify/?type=verify&email=' . $email . '&hash=' . $hash . '&name=' . $name;
-            
+            $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/notify/?type=verify&email=' . $email . '&hash=' . $hash . '&name=' . str_replace(" ", "%20", $name);
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $urlx);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            echo curl_exec($ch);
+            curl_exec($ch);
             curl_close($ch);
             
             if ($email !== '') {
