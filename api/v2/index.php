@@ -40,6 +40,8 @@
                 changePassword();
             } if (isset($_GET["change"]) && $_GET["change"] === "website") {
                 changeWebsiteName();
+            } if (isset($_GET["verify"]) && $_GET["verify"] === "true") {
+                verifyEmail();
             } else {
                 $response = array(
                     'response' => 'up'
@@ -57,6 +59,55 @@
                 exit;
             }
     	}
+	}
+	
+	function verifyEmail() {
+        $email = strtolower($_GET["email"]);
+        $pass = $_GET['pass'];
+        $hash = $_GET['hash'];
+        try {
+            $dbPass = $GLOBALS['conn']->query("SELECT pass FROM `$email` WHERE sites='DATA'")->fetchColumn();
+            if ($dbPass === null) {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                if (password_verify($pass, $dbPass)) {
+                    $GLOBALS['conn']->prepare("UPDATE `$email` SET `sites`='DATA'")->execute();
+                    $response = array(
+                        'response' => 'success'
+                    );
+                    echo json_encode($response);
+                    exit;
+                } else {
+                    $response = array(
+                        'response' => 'mismatch',
+                    );
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                changeEmail();
+                exit;
+            } if ($e->getCode() === '42S02') {
+                $response = array(
+                    'response' => 'mismatch'
+                );
+                echo json_encode($response);
+                exit;
+            } else {
+                $response = array(
+                    'response' => 'error',
+                    'more' => $e->getMessage(),
+                );
+                echo json_encode($response);
+                exit;
+            }
+        }
 	}
 	
 	function changeEmail() {
@@ -464,8 +515,19 @@
                 PRIMARY KEY (`sites`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
             $GLOBALS['conn']->exec($sql);
-			
-            $GLOBALS['conn']->exec("INSERT INTO `$email`(`sites`, `email`, `pass`, `name`, `token`) VALUES ('DATA', '$email', '$pass', '$name', '')");
+			$hash = hash('sha512', uniqid());
+            $GLOBALS['conn']->exec("INSERT INTO `$email`(`sites`, `email`, `pass`, `name`, `token`) VALUES ('".$hash."', '$email', '$pass', '$name', '')");
+            
+            $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/notify/?type=verify&to=' . $email . '&name=' . $name . '&hash=' . $hash;
+            $c = curl_init();
+            curl_setopt($c, CURLOPT_URL, $urlx);
+            curl_setopt($c, CURLOPT_HEADER, TRUE);
+            curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($c, CURLOPT_FRESH_CONNECT, TRUE);
+            curl_setopt($c, CURLOPT_FILETIME, TRUE);
+            curl_setopt($c, CURLOPT_CERTINFO, TRUE);
+            curl_exec($c);
+            curl_close($c);
             
             if ($email !== '') {
                 $response = array(
@@ -612,13 +674,22 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    $response = array(
-                        'response' => 'success',
-                        'email' => strtolower($email),
-                        'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn()
-                    );
-                    echo json_encode($response);
-                    exit;
+                    if ($GLOBALS['conn']->query("SELECT sites FROM `$email`") !== "DATA") {
+                        $response = array(
+                            'response' => 'verify',
+                            'email' => strtolower($email)
+                        );
+                        echo json_encode($response);
+                        exit;
+                    } else {
+                        $response = array(
+                            'response' => 'success',
+                            'email' => strtolower($email),
+                            'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE sites='DATA'")->fetchColumn()
+                        );
+                        echo json_encode($response);
+                        exit;
+                    }
                 } else {
                     $response = array(
                         'response' => 'mismatch',
