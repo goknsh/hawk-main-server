@@ -78,7 +78,9 @@
                     if ($hash === $GLOBALS['conn']->query("SELECT sites FROM `$email` WHERE pass!='DATA'")->fetchColumn()) {
                         $GLOBALS['conn']->prepare("UPDATE `$email` SET `sites`='DATA'")->execute();
                         $response = array(
-                            'response' => 'success'
+                            'response' => 'success',
+                            'email' => strtolower($email),
+                            'name' => $GLOBALS['conn']->query("SELECT name FROM `$email` WHERE pass!='DATA'")->fetchColumn()
                         );
                         echo json_encode($response);
                         exit;
