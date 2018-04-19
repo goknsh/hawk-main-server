@@ -67,8 +67,6 @@
 	
 	function weeklyCleanup() {
         try {
-            $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000")->execute();
             $response = array(
                 'response' => 'success',
@@ -86,8 +84,6 @@
 	
 	function monthlyCleanup() {
         try {
-            $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-mn`=0, `us-uptime-mn`=100.000, `ie-uptime-mn`=100.000")->execute();
             $response = array(
                 'response' => 'success',
