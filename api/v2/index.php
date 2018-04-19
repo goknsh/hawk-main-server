@@ -531,7 +531,7 @@
             
             if ($email !== '') {
                 $response = array(
-                    'response' => 'success',
+                    'response' => 'verify',
                     'name' => $_GET['name'],
                     'email' => $email,
 					'pass' => $_GET["pass"]
