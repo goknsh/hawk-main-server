@@ -1,8 +1,10 @@
 <?php
 
+$hash = $_GET["hash"];
+
 if ($_GET["type"] = "verify") {
     $subject = "Verify your email for Hawk";
-    $html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Verify your email &mdash; Hawk</title></head><body style="padding:0;margin:0;font-family:Colfax,Segoe UI"><header style="display:flex;padding:1rem;background:#004a70;color:white"><div style="width:50%" class="left">Hawk</div><div style="width:50%;display:flex;justify-content:flex-end" class="right"><a style="color:#fafafa;text-decoration:none;opacity:.65" href="https://usehawk.ga/verify/' . $_GET["hash"] . '">Verify Email</a></div></header><div class="body" style="height:90vh;display:flex;align-items:center;justify-content:center;max-width:600px;padding:0 2rem;flex-flow:column wrap;margin:0 auto;text-align:left;min-height:450px"><h1 style="margin:0;width:100%">Hey ' . $_GET["name"] . ',</h1><p>Lets get your account verified so that you can use Hawk. You can do that by clicking the button below. Also, if you didn’t signup, you can ignore this email or <a style="color:#004a70;text-decoration:underline" href="https://usehawk.ga/">go checkout Hawk</a>.</p><div style="width:100%;margin:1rem 0 0 0"><a href="https://usehawk.ga/verify/' . $_GET["hash"] . '" style="background:#004a70;padding:.5rem 1.5rem;color:white;border-radius:5px;">Verify Email</a></div></div></body></html>';
+    $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Verify your email - Hawk</title></head><body><div class="body"><h1>Hey $name,</h1><p>Lets get your account verified so that you can use Hawk. You can do that by clicking the button below. Also, if you didn’t signup, you can ignore this email or go <a href="https://usehawk.ga/">checkout Hawk</a>.</p><p><a href="https://usehawk.ga/verify/' . $hash . '" class="btn btn-primary">Verify Email</a></p></div></body></html>';
     $text = "Verify your email so we can finish setting up your account.";
 }
 
