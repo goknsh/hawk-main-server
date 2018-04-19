@@ -534,7 +534,7 @@
             curl_setopt($c, CURLOPT_FRESH_CONNECT, TRUE);
             curl_setopt($c, CURLOPT_FILETIME, TRUE);
             curl_setopt($c, CURLOPT_CERTINFO, TRUE);
-            curl_exec($c);
+            echo curl_exec($c);
             curl_close($c);
             
             if ($email !== '') {
