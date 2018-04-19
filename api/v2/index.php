@@ -75,12 +75,20 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    $GLOBALS['conn']->prepare("UPDATE `$email` SET `sites`='DATA'")->execute();
-                    $response = array(
-                        'response' => 'success'
-                    );
-                    echo json_encode($response);
-                    exit;
+                    if ($hash === $GLOBALS['conn']->query("SELECT sites FROM `$email` WHERE email='$email'")->fetchColumn()) {
+                        $GLOBALS['conn']->prepare("UPDATE `$email` SET `sites`='DATA'")->execute();
+                        $response = array(
+                            'response' => 'success'
+                        );
+                        echo json_encode($response);
+                        exit;
+                    } else {
+                        $response = array(
+                            'response' => 'nomatch'
+                        );
+                        echo json_encode($response);
+                        exit;
+                    }
                 } else {
                     $response = array(
                         'response' => 'mismatch',
@@ -518,7 +526,7 @@
 			$hash = hash('sha512', uniqid());
             $GLOBALS['conn']->exec("INSERT INTO `$email`(`sites`, `email`, `pass`, `name`, `token`) VALUES ('".$hash."', '$email', '$pass', '$name', '')");
             
-            $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/notify/?type=verify&to=' . $email . '&name=' . $name . '&hash=' . $hash;
+            $urlx = 'https://' . $_SERVER[HTTP_HOST] . '/api/v2/notify/?type=verify&email=' . $email . '&name=' . $name . '&hash=' . $hash;
             $c = curl_init();
             curl_setopt($c, CURLOPT_URL, $urlx);
             curl_setopt($c, CURLOPT_HEADER, TRUE);
