@@ -1,6 +1,6 @@
 <?php
 
-$hash = $_GET["hash"];
+$hash = $_GET["hash"]; $name = $_GET["name"];
 
 if ($_GET["type"] = "verify") {
     $subject = "Verify your email for Hawk";
