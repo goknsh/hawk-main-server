@@ -67,7 +67,8 @@
 	
 	function weeklyCleanup() {
         try {
-            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000")->execute();
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000, `us-apd-wk`=1, `us-apd-wk-data`='0;0;0', `ie-apd-wk`=1, `ie-apd-wk-data`='0;0;0'")->execute();
+            
             $response = array(
                 'response' => 'success',
                 'type' => 'weekly'
@@ -84,7 +85,8 @@
 	
 	function monthlyCleanup() {
         try {
-            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-mn`=0, `us-uptime-mn`=100.000, `ie-uptime-mn`=100.000")->execute();
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-mn`=0, `us-uptime-mn`=100.000, `ie-uptime-mn`=100.000, `us-apd-mn`=1, `us-apd-mn-data`='0;0;0', `ie-apd-mn`=1, `ie-apd-mn-data`='0;0;0'")->execute();
+            
             $response = array(
                 'response' => 'success',
                 'type' => 'monthly'
@@ -449,22 +451,16 @@
                             `id` int AUTO_INCREMENT,
 				            `time` timestamp DEFAULT CURRENT_TIMESTAMP,
                             `outage` int(1),
-                            
                             `us-status` int(1),
                             `ie-status` int(1),
-                            
                             `us-latency` varchar(10),
                             `ie-latency` varchar(10),
-                            
                             `us-data` int(255),
                             `ie-data` int(255),
-                            
                             `us-code` int(3),
                             `ie-code` int(3),
-                            
                             `us-lookup` decimal(65, 3),
                             `ie-lookup` decimal(65, 3),
-                            
                             `us-speed` decimal(65, 3),
                             `ie-speed` decimal(65, 3),
                             PRIMARY KEY (`id`),
@@ -544,6 +540,18 @@
                 `ie-uptime-wk` decimal(65, 3) DEFAULT 100,
                 `us-uptime-mn` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-mn` decimal(65, 3) DEFAULT 100,
+                `us-apd` int(255) DEFAULT 1,
+                `us-apd-data` varchar(255) DEFAULT '0;0;0',
+                `ie-apd` int(255) DEFAULT 1,
+                `ie-apd-data` varchar(255) DEFAULT '0;0;0',
+                `us-apd-mn` int(255) DEFAULT 1,
+                `us-apd-mn-data` varchar(255) DEFAULT '0;0;0',
+                `ie-apd-mn` int(255) DEFAULT 1,
+                `ie-apd-mn-data` varchar(255) DEFAULT '0;0;0',
+                `us-apd-wk` int(255) DEFAULT 1,
+                `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
+                `ie-apd-wk` int(255) DEFAULT 1,
+                `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
                 `us-ssl-auth` longtext,
                 `ie-ssl-auth` longtext,
                 `us-ssl-exp` longtext,
