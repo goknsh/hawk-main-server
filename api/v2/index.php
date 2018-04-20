@@ -449,7 +449,7 @@
                         
                         $sql = "CREATE TABLE IF NOT EXISTS `$url` (
                             `id` int AUTO_INCREMENT,
-				            `time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                            `time` timestamp DEFAULT CURRENT_TIMESTAMP,
                             `outage` int(1),
                             `us-status` int(1),
                             `ie-status` int(1),
