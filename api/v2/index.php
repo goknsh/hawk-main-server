@@ -71,7 +71,10 @@
         try {
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000, `us-apd-wk`=1, `us-apd-wk-data`='0;0;0', `ie-apd-wk`=1, `ie-apd-wk-data`='0;0;0'")->execute();
             
-            // $GLOBALS["conn"]->prepare("DELETE FROM `sites` WHERE `time` < (CURDATE() - INTERVAL 7 DAY)")->execute();
+            $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
+            foreach ($sitesArray as $url) {
+                $GLOBALS["conn"]->prepare("DELETE FROM `$url` WHERE `time` < (CURDATE() - INTERVAL 7 DAY)")->execute();
+            }
             
             $response = array(
                 'response' => 'success',
