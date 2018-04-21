@@ -353,7 +353,7 @@
                 exit;
             } else {
                 if (password_verify($pass, $dbPass)) {
-                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `thresh`=$to WHERE `site`='$url' and `email`='$email'")->execute();
+                    $GLOBALS['conn']->prepare("UPDATE `sites` SET `thresh`=$to, `us-apd`=1, `us-apd-data`='0;0;0', `ie-apd`=1, `ie-apd-data`='0;0;0', `us-apd-wk`=1, `us-apd-wk-data`='0;0;0', `ie-apd-wk`=1, `ie-apd-wk-data`='0;0;0', `us-apd-mn`=1, `us-apd-mn-data`='0;0;0', `ie-apd-mn`=1, `ie-apd-mn-data`='0;0;0' WHERE `site`='$url' and `email`='$email'")->execute();
                     $response = array(
                         'response' => 'success',
                         'thresh' => $to
