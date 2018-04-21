@@ -76,7 +76,6 @@
                 'type' => 'weekly'
             );
             echo json_encode($response);
-            exit;
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
                 weeklyCleanup();
@@ -113,7 +112,6 @@
                 'type' => 'monthly'
             );
             echo json_encode($response);
-            exit;
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
                 monthlyCleanup();
