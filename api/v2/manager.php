@@ -218,15 +218,12 @@ function addToDB($data) {
             }
         }
         
-        $apdUpdateUS = (( $apdDataFromDBUS[0] + ($apdDataFromDBUS[1] / 2) ) / ($apdDataFromDBUS[0] + $apdDataFromDBUS[1] + $apdDataFromDBUS[2] + 1));
-        $apdUpdateIE = (( $apdDataFromDBIE[0] + ($apdDataFromDBIE[1] / 2) ) / ($apdDataFromDBIE[0] + $apdDataFromDBIE[1] + $apdDataFromDBIE[2] + 1));
-        $apdWKUpdateUS = (( $apdWKDataFromDBUS[0] + ($apdWKDataFromDBUS[1] / 2) ) / ($apdWKDataFromDBUS[0] + $apdWKDataFromDBUS[1] + $apdWKDataFromDBUS[2] + 1));
-        $apdWKUpdateIE = (( $apdWKDataFromDBIE[0] + ($apdWKDataFromDBIE[1] / 2) ) / ($apdWKDataFromDBIE[0] + $apdWKDataFromDBIE[1] + $apdWKDataFromDBIE[2] + 1));
-        $apdMNUpdateUS = (( $apdMNDataFromDBUS[0] + ($apdMNDataFromDBUS[1] / 2) ) / ($apdMNDataFromDBUS[0] + $apdMNDataFromDBUS[1] + $apdMNDataFromDBUS[2] + 1));
-        $apdMNUpdateIE = (( $apdMNDataFromDBIE[0] + ($apdMNDataFromDBIE[1] / 2) ) / ($apdMNDataFromDBIE[0] + $apdMNDataFromDBIE[1] + $apdMNDataFromDBIE[2] + 1));
-        
-        echo "Update: " + $apdUpdateUS;
-        echo "FromDB: " + $apdFromDBUS;
+        $apdUpdateUS = (( $apdDataFromDBUS[0] + ($apdDataFromDBUS[1] / 2)) / ($apdDataFromDBUS[0] + $apdDataFromDBUS[1] + $apdDataFromDBUS[2]));
+        $apdUpdateIE = (( $apdDataFromDBIE[0] + ($apdDataFromDBIE[1] / 2)) / ($apdDataFromDBIE[0] + $apdDataFromDBIE[1] + $apdDataFromDBIE[2]));
+        $apdWKUpdateUS = (( $apdWKDataFromDBUS[0] + ($apdWKDataFromDBUS[1] / 2)) / ($apdWKDataFromDBUS[0] + $apdWKDataFromDBUS[1] + $apdWKDataFromDBUS[2]));
+        $apdWKUpdateIE = (( $apdWKDataFromDBIE[0] + ($apdWKDataFromDBIE[1] / 2)) / ($apdWKDataFromDBIE[0] + $apdWKDataFromDBIE[1] + $apdWKDataFromDBIE[2]));
+        $apdMNUpdateUS = (( $apdMNDataFromDBUS[0] + ($apdMNDataFromDBUS[1] / 2)) / ($apdMNDataFromDBUS[0] + $apdMNDataFromDBUS[1] + $apdMNDataFromDBUS[2]));
+        $apdMNUpdateIE = (( $apdMNDataFromDBIE[0] + ($apdMNDataFromDBIE[1] / 2)) / ($apdMNDataFromDBIE[0] + $apdMNDataFromDBIE[1] + $apdMNDataFromDBIE[2]));
         
         $checks = $checks + 1; $checksWK = $checksWK + 1; $checksMN = $checksMN + 1;
         $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];

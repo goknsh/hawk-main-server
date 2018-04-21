@@ -1,0 +1,10 @@
+[21-Apr-2018 23:50:46 UTC] PHP Warning:  PDO::__construct(): MySQL server has gone away in /home/ubuntu/workspace/api/v2/manager.php on line 21
+[21-Apr-2018 23:50:46 UTC] PHP Stack trace:
+[21-Apr-2018 23:50:46 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[21-Apr-2018 23:50:46 UTC] PHP   2. connect() /home/ubuntu/workspace/api/v2/manager.php:17
+[21-Apr-2018 23:50:46 UTC] PHP   3. PDO->__construct() /home/ubuntu/workspace/api/v2/manager.php:21
+[21-Apr-2018 23:52:55 UTC] PHP Warning:  PDO::__construct(): MySQL server has gone away in /home/ubuntu/workspace/api/v2/manager.php on line 21
+[21-Apr-2018 23:52:55 UTC] PHP Stack trace:
+[21-Apr-2018 23:52:55 UTC] PHP   1. {main}() /home/ubuntu/workspace/api/v2/manager.php:0
+[21-Apr-2018 23:52:55 UTC] PHP   2. connect() /home/ubuntu/workspace/api/v2/manager.php:17
+[21-Apr-2018 23:52:55 UTC] PHP   3. PDO->__construct() /home/ubuntu/workspace/api/v2/manager.php:21
