@@ -3,7 +3,7 @@
     ini_set('memory_limit', '100G'); ini_set('xdebug.max_nesting_level', 256);
     ob_start();
     
-    if (!isset($_GET["email"]) | $_GET["email"] === "" && !isset($_GET["pass"]) | $_GET["pass"] === "") {
+    if (!isset($_GET["cleanup"]) && !isset($_GET["email"]) | $_GET["email"] === "" && !isset($_GET["pass"]) | $_GET["pass"] === "") {
         echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Hawk - Redirecting...</title><script>let time = 8;setInterval(function(){time = time - 1;document.querySelector('#seconds').innerHTML = time;if (time === 1) {document.querySelector('#grammar').innerHTML = 'second';}if (time === 0) {document.querySelector('#grammar').innerHTML = 'Should redirect now...';}}, 1000);</script></head><body style='padding:0;margin:0;font-family:monospace;padding:0 2rem;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;max-width:500px;margin:0 auto;text-align:center;'><div><h1 style='margin-top:0;color:red;'>You shouldn&rsquo;t be here</h1><p>So, we&rsquo;re taking you to our main website in <span id='seconds'>8</span> <span id='grammar'>seconds</span>. <b style='color:red;'>Please do not return here.</b> Our servers are very busy and you coming back here will just slow down things for everyone. We <b style='color:red;'>will ban your IP</b> if you keep coming back. Thanks for understanding.</p></div></body></html>";
         header('refresh:7;url=https://usehawk.ga/');
         exit;
@@ -18,7 +18,7 @@
             global $conn;
 			$GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
             
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             if (isset($_GET["signup"]) && $_GET["signup"] === "true") {
                 signup();
@@ -46,6 +46,8 @@
                 weeklyCleanup();
             } if (isset($_GET["cleanup"]) && $_GET["cleanup"] === "monthly") {
                 monthlyCleanup();
+            } if (isset($_GET["cleanup"]) && $_GET["cleanup"] === "full") {
+                fullCleanup();
             } else {
                 $response = array(
                     'response' => 'up'
@@ -78,6 +80,25 @@
         } catch (PDOException $e) {
             if ($e->getCode() === 1203) {
                 weeklyCleanup();
+                exit;
+            }
+        }
+	}
+	
+	function fullCleanup() {
+        weeklyCleanup(); monthlyCleanup();
+        try {
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=1, `ie-speed`=1, `us-latency`=1, `ie-latency`=1, `us-lookup`=1, `ie-lookup`=1, `checks`=0, `us-uptime`=100.000, `ie-uptime`=100.000, `us-apd`=1, `us-apd-data`='0;0;0', `ie-apd`=1, `ie-apd-data`='0;0;0'")->execute();
+            
+            $response = array(
+                'response' => 'success',
+                'type' => 'weekly'
+            );
+            echo json_encode($response);
+            exit;
+        } catch (PDOException $e) {
+            if ($e->getCode() === 1203) {
+                fullCleanup();
                 exit;
             }
         }
@@ -540,17 +561,17 @@
                 `ie-uptime-wk` decimal(65, 3) DEFAULT 100,
                 `us-uptime-mn` decimal(65, 3) DEFAULT 100,
                 `ie-uptime-mn` decimal(65, 3) DEFAULT 100,
-                `us-apd` int(255) DEFAULT 1,
+                `us-apd` decimal(65, 3) DEFAULT 1,
                 `us-apd-data` varchar(255) DEFAULT '0;0;0',
-                `ie-apd` int(255) DEFAULT 1,
+                `ie-apd` decimal(65, 3) DEFAULT 1,
                 `ie-apd-data` varchar(255) DEFAULT '0;0;0',
-                `us-apd-mn` int(255) DEFAULT 1,
+                `us-apd-mn` decimal(65, 3) DEFAULT 1,
                 `us-apd-mn-data` varchar(255) DEFAULT '0;0;0',
-                `ie-apd-mn` int(255) DEFAULT 1,
+                `ie-apd-mn` decimal(65, 3) DEFAULT 1,
                 `ie-apd-mn-data` varchar(255) DEFAULT '0;0;0',
-                `us-apd-wk` int(255) DEFAULT 1,
+                `us-apd-wk` decimal(65, 3) DEFAULT 1,
                 `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
-                `ie-apd-wk` int(255) DEFAULT 1,
+                `ie-apd-wk` decimal(65, 3) DEFAULT 1,
                 `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
                 `us-ssl-auth` longtext,
                 `ie-ssl-auth` longtext,

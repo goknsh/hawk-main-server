@@ -3,6 +3,8 @@
 ignore_user_abort(true);
 set_time_limit(0);
 ob_start();
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
 
 global $conn; global $validation; global $regions; global $gotRegions; global $time; global $response; $response = array(); $validation = 0; $gotRegions = 0;
@@ -189,27 +191,31 @@ function addToDB($data) {
             $apdDataFromDBUS[0] = $apdDataFromDBUS[0] + 1;
             $apdWKDataFromDBUS[0] = $apdWKDataFromDBUS[0] + 1;
             $apdMNDataFromDBUS[0] = $apdMNDataFromDBUS[0] + 1;
-        } if ($thresh + 300 >= $data["us"]["latency"]) {
-            $apdDataFromDBUS[1] = $apdDataFromDBUS[1] + 1;
-            $apdWKDataFromDBUS[1] = $apdWKDataFromDBUS[1] + 1;
-            $apdMNDataFromDBUS[1] = $apdMNDataFromDBUS[1] + 1;
         } else {
-            $apdDataFromDBUS[2] = $apdDataFromDBUS[2] + 1;
-            $apdWKDataFromDBUS[2] = $apdWKDataFromDBUS[2] + 1;
-            $apdMNDataFromDBUS[2] = $apdMNDataFromDBUS[2] + 1;
+            if ($thresh + 300 >= $data["us"]["latency"]) {
+                $apdDataFromDBUS[1] = $apdDataFromDBUS[1] + 1;
+                $apdWKDataFromDBUS[1] = $apdWKDataFromDBUS[1] + 1;
+                $apdMNDataFromDBUS[1] = $apdMNDataFromDBUS[1] + 1;
+            } else {
+                $apdDataFromDBUS[2] = $apdDataFromDBUS[2] + 1;
+                $apdWKDataFromDBUS[2] = $apdWKDataFromDBUS[2] + 1;
+                $apdMNDataFromDBUS[2] = $apdMNDataFromDBUS[2] + 1;
+            }
         }
         if ($thresh >= $data["ie"]["latency"]) {
             $apdDataFromDBIE[0] = $apdDataFromDBIE[0] + 1;
             $apdWKDataFromDBIE[0] = $apdWKDataFromDBIE[0] + 1;
             $apdMNDataFromDBIE[0] = $apdMNDataFromDBIE[0] + 1;
-        } if ($thresh + 300 >= $data["ie"]["latency"]) {
-            $apdDataFromDBIE[1] = $apdDataFromDBIE[1] + 1;
-            $apdWKDataFromDBIE[1] = $apdWKDataFromDBIE[1] + 1;
-            $apdMNDataFromDBIE[1] = $apdMNDataFromDBIE[1] + 1;
         } else {
-            $apdDataFromDBIE[2] = $apdDataFromDBIE[2] + 1;
-            $apdWKDataFromDBIE[2] = $apdWKDataFromDBIE[2] + 1;
-            $apdMNDataFromDBIE[2] = $apdMNDataFromDBIE[2] + 1;
+            if ($thresh + 300 >= $data["ie"]["latency"]) {
+                $apdDataFromDBIE[1] = $apdDataFromDBIE[1] + 1;
+                $apdWKDataFromDBIE[1] = $apdWKDataFromDBIE[1] + 1;
+                $apdMNDataFromDBIE[1] = $apdMNDataFromDBIE[1] + 1;
+            } else {
+                $apdDataFromDBIE[2] = $apdDataFromDBIE[2] + 1;
+                $apdWKDataFromDBIE[2] = $apdWKDataFromDBIE[2] + 1;
+                $apdMNDataFromDBIE[2] = $apdMNDataFromDBIE[2] + 1;
+            }
         }
         
         $apdUpdateUS = (( $apdDataFromDBUS[0] + ($apdDataFromDBUS[1] / 2) ) / ($checks + 1));
@@ -223,7 +229,29 @@ function addToDB($data) {
         $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
         $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
         
-        $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=$speedUS, `ie-speed`=$speedIE, `us-latency`=$latencyUS, `ie-latency`=$latencyIE, `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE, `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN, `us-uptime`=$uptimeUS, `ie-uptime`=$uptimeIE, `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE, `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE, `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE', `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE', `us-apd`=$apdUpdateUS, `ie-apd`=$apdUpdateIE, `us-apd-wk`=$apdWKUpdateUS, `ie-apd-wk`=$apdWKUpdateIE, `us-apd-mn`=$apdMNUpdateUS, `ie-apd-mn`=$apdMNUpdateIE WHERE `site`='$url'")->execute();
+        $apdDataFromDBUS = implode(';', $apdDataFromDBUS);
+        $apdDataFromDBIE = implode(';', $apdDataFromDBIE);
+        $apdWKDataFromDBUS = implode(';', $apdWKDataFromDBUS);
+        $apdWKDataFromDBIE = implode(';', $apdWKDataFromDBIE);
+        $apdMNDataFromDBUS = implode(';', $apdMNDataFromDBUS);
+        $apdMNDataFromDBIE = implode(';', $apdMNDataFromDBIE);
+        
+        $GLOBALS["conn"]->prepare("UPDATE `sites` SET 
+            `us-speed`=$speedUS, `ie-speed`=$speedIE,
+            `us-latency`=$latencyUS, `ie-latency`=$latencyIE,
+            `us-lookup`=$lookupUS, `ie-lookup`=$lookupIE,
+            `checks`=$checks, `checks-wk`=$checksWK, `checks-mn`=$checksMN,
+            `us-uptime`=$uptimeUS, `ie-uptime`=$uptimeIE,
+            `us-uptime-wk`=$uptimeWKUS, `ie-uptime-wk`=$uptimeWKIE,
+            `us-uptime-mn`=$uptimeMNUS, `ie-uptime-mn`=$uptimeMNIE,
+            `us-ssl-auth`='$sslUS', `ie-ssl-auth`='$sslIE',
+            `us-ssl-exp`='$sslexpiryUS', `ie-ssl-exp`='$sslexpiryIE',
+            `us-apd`=$apdUpdateUS, `us-apd-data`='$apdDataFromDBUS',
+            `ie-apd`=$apdUpdateIE, `ie-apd-data`='$apdDataFromDBIE',
+            `us-apd-wk`=$apdWKUpdateUS, `us-apd-wk-data`='$apdWKDataFromDBUS',
+            `ie-apd-wk`=$apdWKUpdateIE, `ie-apd-wk-data`='$apdWKDataFromDBIE',
+            `us-apd-mn`=$apdMNUpdateUS, `us-apd-mn-data`='$apdMNDataFromDBUS',
+            `ie-apd-mn`=$apdMNUpdateIE, `ie-apd-mn-data`='$apdMNDataFromDBIE' WHERE `site`='$url'")->execute();
         
         if ($data["us"]["status"] === "up") {
             $statusUS = 0;
