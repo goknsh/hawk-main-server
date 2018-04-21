@@ -96,7 +96,7 @@
             
             $response = array(
                 'response' => 'success',
-                'type' => 'weekly'
+                'type' => 'full'
             );
             echo json_encode($response);
             exit;

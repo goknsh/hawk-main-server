@@ -225,6 +225,9 @@ function addToDB($data) {
         $apdMNUpdateUS = (( $apdMNDataFromDBUS[0] + ($apdMNDataFromDBUS[1] / 2) ) / ($apdMNDataFromDBUS[0] + $apdMNDataFromDBUS[1] + $apdMNDataFromDBUS[2] + 1));
         $apdMNUpdateIE = (( $apdMNDataFromDBIE[0] + ($apdMNDataFromDBIE[1] / 2) ) / ($apdMNDataFromDBIE[0] + $apdMNDataFromDBIE[1] + $apdMNDataFromDBIE[2] + 1));
         
+        echo "Update: " + $apdUpdateUS;
+        echo "FromDB: " + $apdFromDBUS;
+        
         $checks = $checks + 1; $checksWK = $checksWK + 1; $checksMN = $checksMN + 1;
         $sslUS = $data["us"]["ssl"]; $sslIE = $data["ie"]["ssl"];
         $sslexpiryUS = $data["us"]["sslexpiry"]; $sslexpiryIE = $data["ie"]["sslexpiry"];
