@@ -71,6 +71,8 @@
         try {
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-wk`=0, `us-uptime-wk`=100.000, `ie-uptime-wk`=100.000, `us-apd-wk`=1, `us-apd-wk-data`='0;0;0', `ie-apd-wk`=1, `ie-apd-wk-data`='0;0;0'")->execute();
             
+            // $GLOBALS["conn"]->prepare("DELETE FROM `sites` WHERE `time` < (CURDATE() - INTERVAL 7 DAY)")->execute();
+            
             $response = array(
                 'response' => 'success',
                 'type' => 'weekly'
@@ -689,6 +691,18 @@
                         'ie-speed' => $GLOBALS['conn']->query("SELECT `ie-speed` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'us-latency' => $GLOBALS['conn']->query("SELECT `us-latency` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'ie-latency' => $GLOBALS['conn']->query("SELECT `ie-latency` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd' => $GLOBALS['conn']->query("SELECT `us-apd` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd-data' => $GLOBALS['conn']->query("SELECT `us-apd-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd' => $GLOBALS['conn']->query("SELECT `ie-apd` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd-data' => $GLOBALS['conn']->query("SELECT `ie-apd-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd-wk' => $GLOBALS['conn']->query("SELECT `us-apd-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd-wk-data' => $GLOBALS['conn']->query("SELECT `us-apd-wk-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd-wk' => $GLOBALS['conn']->query("SELECT `ie-apd-wk` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd-wk-data' => $GLOBALS['conn']->query("SELECT `ie-apd-wk-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd-mn' => $GLOBALS['conn']->query("SELECT `us-apd-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'us-apd-mn-data' => $GLOBALS['conn']->query("SELECT `us-apd-mn-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd-mn' => $GLOBALS['conn']->query("SELECT `ie-apd-mn` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
+                        'ie-apd-mn-data' => $GLOBALS['conn']->query("SELECT `ie-apd-mn-data` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'us-ssl-auth' => $GLOBALS['conn']->query("SELECT `us-ssl-auth` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'ie-ssl-auth' => $GLOBALS['conn']->query("SELECT `ie-ssl-auth` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
                         'us-ssl-exp' => $GLOBALS['conn']->query("SELECT `us-ssl-exp` from `sites` WHERE site='$site' AND email='$email'")->fetchColumn(),
