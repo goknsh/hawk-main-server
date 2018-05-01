@@ -573,7 +573,7 @@
                 `ie-apd-mn` decimal(65, 3) DEFAULT 1,
                 `ie-apd-mn-data` varchar(255) DEFAULT '0;0;0',
                 `us-apd-wk` decimal(65, 3) DEFAULT 1,
-                `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
+                `us-apd-wk-data` varchar(255) DEFAULT '0;0;0',
                 `ie-apd-wk` decimal(65, 3) DEFAULT 1,
                 `ie-apd-wk-data` varchar(255) DEFAULT '0;0;0',
                 `us-ssl-auth` longtext,
