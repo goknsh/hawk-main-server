@@ -92,7 +92,7 @@
 	function fullCleanup() {
         weeklyCleanup(); monthlyCleanup();
         try {
-            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=1, `ie-speed`=1, `us-latency`=1, `ie-latency`=1, `us-lookup`=1, `ie-lookup`=1, `checks`=0, `us-uptime`=100.000, `ie-uptime`=100.000, `us-apd`=1, `us-apd-data`='0;0;0', `ie-apd`=1, `ie-apd-data`='0;0;0'")->execute();
+            $GLOBALS["conn"]->prepare("UPDATE `sites` SET `us-speed`=0, `ie-speed`=0, `us-latency`=0, `ie-latency`=0, `us-lookup`=0, `ie-lookup`=0, `checks`=0, `us-uptime`=100.000, `ie-uptime`=100.000, `us-apd`=1, `us-apd-data`='0;0;0', `ie-apd`=1, `ie-apd-data`='0;0;0'")->execute();
             
             $response = array(
                 'response' => 'success',
@@ -111,7 +111,10 @@
 	function monthlyCleanup() {
         try {
             $GLOBALS["conn"]->prepare("UPDATE `sites` SET `checks-mn`=0, `us-uptime-mn`=100.000, `ie-uptime-mn`=100.000, `us-apd-mn`=1, `us-apd-mn-data`='0;0;0', `ie-apd-mn`=1, `ie-apd-mn-data`='0;0;0'")->execute();
-            
+            $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
+            foreach ($sitesArray as $url) {
+                $GLOBALS["conn"]->prepare("DELETE FROM `$url` WHERE `time` < (CURDATE() - INTERVAL 30 DAY)")->execute();
+            }
             $response = array(
                 'response' => 'success',
                 'type' => 'monthly'
