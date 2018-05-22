@@ -1,7 +1,13 @@
 {
-    "config": {
-        "platform": {
-            "php": "7.1.16"
+    "name": "goknsh/hawk",
+    "description": "Website monitoring with PHP",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Akaanksh Raj",
+            "email": "akaankshraj@gmail.com"
         }
-    }
+    ],
+    "require": {}
 }
