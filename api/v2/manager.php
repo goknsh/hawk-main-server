@@ -5,7 +5,7 @@ set_time_limit(0);
 ob_start();
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 
 global $conn; global $validation; global $regions; global $gotRegions; global $time; global $response; $response = array(); $validation = 0; $gotRegions = 0;
 
@@ -18,13 +18,13 @@ connect();
 
 function connect() {
     try {
-        $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
-        $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // $GLOBALS['conn'] = new PDO("mysql:host=ricky.heliohost.org:3306;dbname=goark_ping2", "goark_server", "serverkey2", array(PDO::ATTR_PERSISTENT => true));
+        // $GLOBALS['conn']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         if (isset($_GET["new"]) && $_GET["new"] === "true") {
             checkURL($_GET["url"]);
         } else {
-            $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
+            // $sitesArray = array_unique($GLOBALS['conn']->query("SELECT site FROM `sites`")->fetchAll(PDO::FETCH_COLUMN));
             foreach ($sitesArray as $url) {
                 checkURL($url);
             }
@@ -63,6 +63,9 @@ function checkURLie($url) {
         $GLOBALS["validation"] = $GLOBALS["validation"] + 1;
         if ($GLOBALS["validation"] >= 2) {
             $GLOBALS["validation"] = 0;
+            coSign($response, $url, "ie");
+        } else {
+            checkURLuie($url);
         }
     } else {
         coSign($response, $url, "ie");
@@ -85,6 +88,9 @@ function checkURLus($url) {
         $GLOBALS["validation"] = $GLOBALS["validation"] + 1;
         if ($GLOBALS["validation"] >= 2) {
             $GLOBALS["validation"] = 0;
+            coSign($response, $url, "us");
+        } else {
+            checkURLus($url);
         }
     } else {
         coSign($response, $url, "us");
@@ -299,3 +305,5 @@ function addToDB($data) {
         }
     }
 }
+
+?>
