@@ -65,7 +65,7 @@ function checkURLie($url) {
             $GLOBALS["validation"] = 0;
             coSign($response, $url, "ie");
         } else {
-            checkURLuie($url);
+            checkURLie($url);
         }
     } else {
         coSign($response, $url, "ie");
